@@ -1,0 +1,7 @@
+.idea
+*.stash
+
+Makefile
+progetto.app
+*.o
+qrc_resources.cpp
