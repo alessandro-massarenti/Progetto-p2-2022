@@ -1,5 +1,11 @@
 #include "WorkController.h"
 
+WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
+Controller(v,m,p){
+
+}
+
+
 WorkView *WorkController::getView() const {
     return nullptr;
 }
@@ -7,3 +13,4 @@ WorkView *WorkController::getView() const {
 WorkModel *WorkController::getModel() const {
     return nullptr;
 }
+

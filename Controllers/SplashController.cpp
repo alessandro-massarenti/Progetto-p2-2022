@@ -15,7 +15,7 @@ Model *SplashController::getModel() const {
 
 void SplashController::onNewProject(){
     auto workView = new WorkView(view);
-    workView->setTitle("Nuovo file");
+    workView->setWindowTitle("Nuovo file");
     auto workController = new WorkController(workView,new WorkModel(), this);
     workController->showView();
     //TODO: Chiudere questo controller

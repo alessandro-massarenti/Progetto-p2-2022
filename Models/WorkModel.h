@@ -8,11 +8,11 @@
 
 class WorkModel : public Model{
 public:
-    explicit WorkModel(QString* path);
+    explicit WorkModel(const QString& path);
     WorkModel();
 
     ~WorkModel() override;
 
 private:
-    QString* filepath;
+    QString filepath;
 };
