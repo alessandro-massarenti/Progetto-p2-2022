@@ -1,6 +1,4 @@
-#ifndef PROGETTO_VERO2_MODEL_H
-#define PROGETTO_VERO2_MODEL_H
-
+#pragma once
 
 class Model {
 protected:
@@ -8,6 +6,3 @@ protected:
 public:
     virtual ~Model() = default;
 };
-
-
-#endif //PROGETTO_VERO2_MODEL_H

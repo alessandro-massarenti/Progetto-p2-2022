@@ -21,10 +21,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    Model/*.cpp
+    Controllers/*.cpp \
+    Models/*.cpp \
+    Views/*.cpp
+
+
 
 HEADERS += \
-    Model/*.h
+    Controllers/*.h \
+    Models/*.h \
+    Views/*.h
 
 RESOURCES = resources.qrc
 
