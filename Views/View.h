@@ -12,6 +12,7 @@ class View: public QWidget{
     Q_OBJECT
 public:
     explicit View(View* parent = nullptr);
+    void setTitle(const QString& title);
 signals:
     void viewClosed();
 };

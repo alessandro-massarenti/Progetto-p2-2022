@@ -1,4 +1,6 @@
 #include "SplashController.h"
+#include "Views/WorkView.h"
+#include "Controllers/WorkController.h"
 
 SplashController::SplashController(SplashView *v, Controller *p):
     Controller(v, nullptr,p) {}
@@ -11,10 +13,14 @@ Model *SplashController::getModel() const {
     return nullptr;
 }
 
-void SplashController::onNewProject() const {
-
+void SplashController::onNewProject(){
+    auto workView = new WorkView(view);
+    workView->setTitle("Nuovo file");
+    auto workController = new WorkController(workView,new WorkModel(), this);
+    workController->showView();
+    //TODO: Chiudere questo controller
 }
 
-void SplashController::onOpenProject() const {
+void SplashController::onOpenProject(){
 
 }

@@ -14,13 +14,14 @@ public:
 
     Model* getModel() const override;
 public slots:
+    //TODO: controllare se mettere o no const i metodi "new project" e "openProject"
     /**
      * @brief va eseguito alla ricezione del segnale newProject della SplashView
      */
-    void onNewProject() const;
+    void onNewProject();
+
     /**
      * @brief va eseguito alla ricezione del segnale openProject della SplashView
      */
-
-    void onOpenProject() const;
+    void onOpenProject();
 };

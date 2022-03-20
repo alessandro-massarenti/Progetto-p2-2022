@@ -1,5 +1,9 @@
-//
-// Created by Alessandro Massarenti on 20/03/22.
-//
-
 #include "WorkController.h"
+
+WorkView *WorkController::getView() const {
+    return nullptr;
+}
+
+WorkModel *WorkController::getModel() const {
+    return nullptr;
+}
