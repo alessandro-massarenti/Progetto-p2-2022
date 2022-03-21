@@ -44,9 +44,7 @@ void SplashController::onOpenProject(){
     auto workModel = new WorkModel(filepath);
 
     workView->setWindowTitle(filepath);
-    auto workController = new WorkController(workView,workModel);
-
-    workController->showView();
+    new WorkController(workView,workModel);
 
     deleteLater();
     //TODO: da migliorare la solidità di questa azione

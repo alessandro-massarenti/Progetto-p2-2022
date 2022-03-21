@@ -3,6 +3,7 @@
 #include "Controller.h"
 
 #include "Views/WorkView.h"
+#include "Views/WorkWindow.h"
 #include "Models/WorkModel.h"
 
 //TODO:define
@@ -14,5 +15,8 @@ public:
     WorkView *getView() const override;
 
     WorkModel *getModel() const override;
+
+private:
+    WorkWindow* workWindow;
 };
 
