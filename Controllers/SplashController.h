@@ -24,4 +24,7 @@ public slots:
      * @brief va eseguito alla ricezione del segnale openProject della SplashView
      */
     void onOpenProject();
+
+private:
+    void connectAll() const;
 };

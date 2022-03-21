@@ -2,7 +2,6 @@
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p){
-
 }
 
 
