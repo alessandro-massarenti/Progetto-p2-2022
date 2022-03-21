@@ -4,6 +4,7 @@
 #include <QPushButton>
 
 class SplashView : public View{
+    Q_OBJECT
 public:
     explicit SplashView(View* parent = nullptr);
 
