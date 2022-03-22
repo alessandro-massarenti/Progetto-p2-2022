@@ -2,7 +2,7 @@
 
 #include <QToolBar>
 #include <QMenuBar>
-#include <QLineEdit>
+#include <QSpinBox>
 
 
 WorkView::WorkView(View *parent) :
@@ -13,23 +13,19 @@ View(parent), mainLayout(new QGridLayout(this)), booksTable(new QTableWidget(thi
 
     makeInsertGUI();
 
-
     setLayout(mainLayout);
 }
 
 void WorkView::makeInsertGUI() {
-    auto codeLineEdit = new QLineEdit();
-    mainLayout->addWidget(codeLineEdit, 0, 0, 1, 2);
     auto addBookButton = new QPushButton("Aggiungi libro",this);
     mainLayout->addWidget(addBookButton, 0, 2, 1, 1, Qt::AlignJustify);
 
-    connect(addBookButton,&QPushButton::clicked,[this,codeLineEdit]{
-        emit addBook(codeLineEdit->text());
-    });
+    connect(addBookButton,&QPushButton::clicked,this,&WorkView::addBook);
+
 }
 
 void WorkView::createBooksTable() const {
-    QStringList headers = { "Titolo", "Codice", "Quantità","" ,""};
+    QStringList headers = { "Titolo", "Autore", "Codice","Quantità" ,""};
     //Prints Table
     booksTable->setRowCount(0);
     booksTable->setColumnCount(5);
@@ -44,27 +40,34 @@ void WorkView::createBooksTable() const {
 }
 
 
-void WorkView::addRowBooksTable(unsigned int row,const Book& book){
+void WorkView::addRowBooksTable(const Book& book){
+
+    unsigned int row = booksTable->rowCount();
+    qDebug() << row;
+
     booksTable->insertRow(row);
 
     booksTable->setItem(row,0,new QTableWidgetItem(QString::fromUtf8(book.getTitle())));
     booksTable->setItem(row,1,new QTableWidgetItem(QString::fromUtf8(book.getAuthor())));
     booksTable->setItem(row,2,new QTableWidgetItem(QString::fromUtf8(book.getIdCode())));
 
+    auto bookCount = new QSpinBox();
+    bookCount->setValue(book.getQuantity());
+    bookCount->setRange(0,1000);
+    booksTable->setCellWidget(row,3,bookCount);
+
+    connect(bookCount,&QSpinBox::valueChanged,[this,bookCount](int value){
+        unsigned int row = booksTable->indexAt(bookCount->pos()).row();
+        emit changeBookQuantity(row,value);
+    });
+
     //DecreaseBookButton
     auto decreaseBookButton = new QPushButton("-", this);
     booksTable->setCellWidget(row, 4, decreaseBookButton);//Widget
-    //IncreaseBookButton
-    auto increaseBookButton = new QPushButton("+", this);
-    booksTable->setCellWidget(row, 5, increaseBookButton);//Widget
 
     //Connessione al pulsante delete per eliminare la riga e aggiornare il modello di dati con l'eliminazione
     connect(decreaseBookButton, &QPushButton::clicked, this, [this,decreaseBookButton]() {
         unsigned int row = booksTable->indexAt(decreaseBookButton->pos()).row();
-        emit booksTableDecreaseBook(row);
-    });
-    connect(increaseBookButton, &QPushButton::clicked, this, [this,increaseBookButton]() {
-        unsigned int row = booksTable->indexAt(increaseBookButton->pos()).row();
-        emit booksTableIncreaseBook(row);
+        emit removeBook(row);
     });
 }

@@ -16,12 +16,13 @@ public:
     explicit WorkView(View* parent = nullptr);
 
     void createBooksTable() const;
-    void addRowBooksTable(unsigned int row,const Book& book);
+    void addRowBooksTable(const Book& book);
+
 
 signals:
-    void booksTableDecreaseBook(unsigned int row);
-    void booksTableIncreaseBook(unsigned int row);
-    void addBook(const QString& code);
+    void changeBookQuantity(unsigned int row, int quantity);
+    void removeBook(unsigned int row);
+    void addBook();
 
 private:
     void makeInsertGUI();

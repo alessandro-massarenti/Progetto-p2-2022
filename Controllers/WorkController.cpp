@@ -1,13 +1,16 @@
 #include "WorkController.h"
 
-//TODO: remove it
-#include "Models/IsbnBook.h"
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p), workWindow(new WorkWindow()){
 
     //Creao la Record Table
     getView()->createBooksTable();
+
+
+
+    connect(getView(),&WorkView::changeBookQuantity,this,&WorkController::changeBookQuantity);
+    connect(getView(),&WorkView::removeBook,this,&WorkController::removeBook);
 
     connect(getView(),&WorkView::addBook,this,&WorkController::addBook);
 
@@ -17,14 +20,6 @@ Controller(v,m,p), workWindow(new WorkWindow()){
 
 
     //TODO: Levare queste cose perchè sono solo per il debug
-    auto book = new IsbnBook("Libro","Mario");
-    auto book2 = new IsbnBook("Libro2","Mariooo");
-
-    getView()->addRowBooksTable(0,*book);
-    getView()->addRowBooksTable(1,*book2);
-    getView()->addRowBooksTable(2,*book2);
-    getView()->addRowBooksTable(3,*book2);
-    getView()->addRowBooksTable(4,*book);
 }
 
 
@@ -38,9 +33,16 @@ WorkModel *WorkController::getModel() const {
     return static_cast<WorkModel*>(model);
 }
 
-void WorkController::addBook(const QString &code) {
 
-
+void WorkController::changeBookQuantity(unsigned int row, int quantity) {
 
 }
 
+void WorkController::removeBook(unsigned int row) {
+
+}
+
+
+void WorkController::addBook() {
+    getView()->addRowBooksTable({});
+}
