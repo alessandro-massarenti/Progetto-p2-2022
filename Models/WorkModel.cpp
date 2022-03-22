@@ -1,6 +1,6 @@
 #include "WorkModel.h"
 
-WorkModel::WorkModel(const QString &path) {
+WorkModel::WorkModel(const std::string &path) {
 
 }
 

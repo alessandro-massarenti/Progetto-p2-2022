@@ -29,10 +29,18 @@ Controller(v,m,p), workWindow(new WorkWindow()){
 
 
 WorkView *WorkController::getView() const {
-    return dynamic_cast<WorkView*>(view);
+    //Poiché il work controller accetta solo workView sono sicuro con lo static cast
+    return static_cast<WorkView*>(view);
 }
 
 WorkModel *WorkController::getModel() const {
-    return nullptr;
+    //Poiché il work controller accetta solo workModel sono sicuro con lo static cast
+    return static_cast<WorkModel*>(model);
+}
+
+void WorkController::addBook(const QString &code) {
+
+
+
 }
 
