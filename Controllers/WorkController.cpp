@@ -7,10 +7,13 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p), workWindow(new WorkWindow()){
 
     //Creao la Record Table
-    getView()->createBooksTable({ "Titolo", "Codice", "Quantità", "Stato"});
+    getView()->createBooksTable();
 
-    workWindow->setCentralWidget(view);
+    connect(getView(),&WorkView::addBook,this,&WorkController::addBook);
+
+    workWindow->setCentralWidget(getView());
     workWindow->show();
+
 
 
     //TODO: Levare queste cose perchè sono solo per il debug

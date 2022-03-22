@@ -15,14 +15,21 @@ class WorkView: public View{
 public:
     explicit WorkView(View* parent = nullptr);
 
-    void createBooksTable(const QStringList& headers) const;
+    void createBooksTable() const;
     void addRowBooksTable(unsigned int row,const Book& book);
 
 signals:
-    void booksTableRemoveBook(unsigned int row);
+    void booksTableDecreaseBook(unsigned int row);
+    void booksTableIncreaseBook(unsigned int row);
+    void addBook(const QString& code);
+
+private:
+    void makeInsertGUI();
+
 private:
     QGridLayout* mainLayout;
     QTableWidget* booksTable;
+
 
 };
 

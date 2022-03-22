@@ -13,9 +13,11 @@ public:
     explicit WorkController(WorkView* view, WorkModel* model = new WorkModel(), Controller* parent = nullptr);
 
     WorkView *getView() const override;
-
     WorkModel *getModel() const override;
 
+public slots:
+
+    void addBook(const QString& code);
 private:
     WorkWindow* workWindow;
 };
