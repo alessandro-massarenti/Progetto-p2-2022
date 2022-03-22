@@ -8,10 +8,11 @@ Controller(v,m,p), workWindow(new WorkWindow()){
     getView()->createBooksTable();
 
 
-
+    connect(getView(),&WorkView::itemChanged, [=](unsigned int row, unsigned int column, const QString& data){
+        qDebug() << row << column << data;
+    });
     connect(getView(),&WorkView::changeBookQuantity,this,&WorkController::changeBookQuantity);
     connect(getView(),&WorkView::removeBook,this,&WorkController::removeBook);
-
     connect(getView(),&WorkView::addBook,this,&WorkController::addBook);
 
     workWindow->setCentralWidget(getView());
@@ -39,10 +40,12 @@ void WorkController::changeBookQuantity(unsigned int row, int quantity) {
 }
 
 void WorkController::removeBook(unsigned int row) {
-
+    //TODO:Modificare il modello
+    getView()->removeRowBooksTable(row);
 }
 
 
 void WorkController::addBook() {
+    //TODO:Modificare il modello
     getView()->addRowBooksTable({});
 }
