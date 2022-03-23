@@ -4,13 +4,21 @@
 
 class Book {
 public:
-    Book(std::string name = "",std::string author = "");
+    Book(const std::string& name = "",const std::string& author = "",const std::string& isbn = "",unsigned int count = 0);
     virtual ~Book() = default;
 
     std::string getTitle() const;
     std::string getAuthor() const;
-    virtual std::string getIdCode() const = 0;
+    std::string getIdCode() const;
+    unsigned int getQuantity() const;
+
+    void setTitle(const std::string& title);
+    void setAutor(const std::string& author);
+    void setIdCode(const std::string& idCode);
+    void setQuantity(unsigned int quantity);
 private:
     std::string title;
     std::string author;
+    std::string isbn;
+    unsigned int quantity;
 };

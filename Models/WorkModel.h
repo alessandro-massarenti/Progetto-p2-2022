@@ -1,18 +1,23 @@
 #pragma once
 
 #include "Model.h"
+#include <string>
+#include <vector>
 #include "Book.h"
-#include <QString>
 
 //Todo: to be defined
 
 class WorkModel : public Model{
 public:
-    explicit WorkModel(const QString& path);
-    WorkModel();
-
+    explicit WorkModel(const std::string& path = "");
     ~WorkModel() override;
 
+
+    std::vector<Book*>& getLibrary();
+    const std::string& getSavepath() const;
+    void setSavePath(const std::string& savepath);
+
 private:
-    QString filepath;
+    std::string filepath;
+    std::vector<Book*> library;
 };

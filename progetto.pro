@@ -23,14 +23,16 @@ SOURCES += \
     main.cpp \
     Controllers/*.cpp \
     Models/*.cpp \
-    Views/*.cpp
+    Views/*.cpp \
+    Services/*.cpp
 
 
 
 HEADERS += \
     Controllers/*.h \
     Models/*.h \
-    Views/*.h
+    Views/*.h \
+    Services/*.h
 
 RESOURCES = resources.qrc
 
