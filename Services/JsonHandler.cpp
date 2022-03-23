@@ -18,8 +18,8 @@ bool JsonHandler::saveToFile(const QString & data, const QString& path) {
     return true;
 }
 
-std::vector<Book*>* JsonHandler::openFrom(const std::string& savePath) {
-    QFile loadFile(QString::fromUtf8(savePath));
+std::vector<Book*>* JsonHandler::openFrom(const QString& savePath) {
+    QFile loadFile(savePath);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't loadFromDisk file.");
@@ -35,9 +35,9 @@ QJsonObject JsonHandler::serialize(const Book &b) {
     long long a = b.getQuantity();
 
     QJsonObject record;
-    record["title"] = QString::fromUtf8(b.getTitle());
-    record["author"] = QString::fromUtf8(b.getAuthor());
-    record["code"] = QString::fromUtf8(b.getIdCode());
+    record["title"] = b.getTitle();
+    record["author"] = b.getAuthor();
+    record["code"] = b.getIdCode();
     record["quantity"] = a;
 
     return record;
@@ -66,9 +66,9 @@ std::vector<Book *> *JsonHandler::deSerialize(const QJsonObject &json) {
     for (auto book: library) {
 
         auto libro = book.toObject();
-        aux->push_back(new Book(libro["title"].toString().toStdString(),
-                                libro["author"].toString().toStdString(),
-                                libro["code"].toString().toStdString(),
+        aux->push_back(new Book(libro["title"].toString(),
+                                libro["author"].toString(),
+                                libro["code"].toString(),
                                 libro["quantity"].toInt()));
     }
     return aux;

@@ -9,15 +9,15 @@
 
 class WorkModel : public Model{
 public:
-    explicit WorkModel(const std::string& path = "");
+    explicit WorkModel(const QString& path = "");
     ~WorkModel() override;
 
 
     std::vector<Book*>& getLibrary();
-    const std::string& getSavepath() const;
-    void setSavePath(const std::string& savepath);
+    const QString& getSavepath() const;
+    void setSavePath(const QString& savepath);
 
 private:
-    std::string filepath;
+    QString filepath;
     std::vector<Book*> library;
 };

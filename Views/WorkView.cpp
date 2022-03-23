@@ -51,9 +51,9 @@ void WorkView::addRowBooksTable(const Book& book){
 
     booksTable->insertRow(row);
 
-    booksTable->setItem(row,0,new QTableWidgetItem(QString::fromUtf8(book.getTitle())));
-    booksTable->setItem(row,1,new QTableWidgetItem(QString::fromUtf8(book.getAuthor())));
-    booksTable->setItem(row,2,new QTableWidgetItem(QString::fromUtf8(book.getIdCode())));
+    booksTable->setItem(row,0,new QTableWidgetItem(book.getTitle()));
+    booksTable->setItem(row,1,new QTableWidgetItem(book.getAuthor()));
+    booksTable->setItem(row,2,new QTableWidgetItem(book.getIdCode()));
 
     //Book count
     auto bookCount = new QSpinBox();

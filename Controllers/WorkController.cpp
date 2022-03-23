@@ -39,9 +39,9 @@ WorkModel *WorkController::getModel() const {
 void WorkController::itemChanged(unsigned int row, unsigned int column, const QString &data) {
     if(getModel()->getLibrary().size() <= 0) return;
     auto book = getModel()->getLibrary()[row];
-    if(column == 0) book->setTitle(data.toStdString());
-    if(column == 1) book->setAutor(data.toStdString());
-    if(column == 2) book->setIdCode(data.toStdString());
+    if(column == 0) book->setTitle(data);
+    if(column == 1) book->setAutor(data);
+    if(column == 2) book->setIdCode(data);
 }
 
 void WorkController::changedBookQuantity(unsigned int row, int quantity) {
@@ -67,11 +67,11 @@ void WorkController::addedBook() {
 
 void WorkController::saveFile() {
     bool filepathPresent = false;
-    if(getModel()->getSavepath().empty()) filepathPresent = askSavePath();
+    if(getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if(filepathPresent) {
         JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
-                                QString::fromUtf8(getModel()->getSavepath()));
+                                getModel()->getSavepath());
     }
 }
 
@@ -86,7 +86,7 @@ void WorkController::updateView() const {
 
 void WorkController::openFile() {
     bool filepathPresent = false;
-    if(getModel()->getSavepath().empty()) filepathPresent = askOpenPath();
+    if(getModel()->getSavepath().isNull()) filepathPresent = askOpenPath();
     else filepathPresent = true;
     if(filepathPresent) {
         getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
@@ -99,7 +99,7 @@ bool WorkController::askSavePath() {
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
     if(save.isNull()) return false;
-    getModel()->setSavePath(save.toStdString());
+    getModel()->setSavePath(save);
     return true;
 }
 
@@ -108,6 +108,6 @@ bool WorkController::askOpenPath() {
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
     if(save.isNull()) return false;
-    getModel()->setSavePath(save.toStdString());
+    getModel()->setSavePath(save);
     return true;
 }
