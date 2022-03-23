@@ -78,3 +78,7 @@ void WorkView::addRowBooksTable(const Book& book){
 void WorkView::removeRowBooksTable(unsigned int row) {
     booksTable->removeRow(row);
 }
+
+void WorkView::clearBooksTable() {
+    booksTable->setRowCount(0);
+}

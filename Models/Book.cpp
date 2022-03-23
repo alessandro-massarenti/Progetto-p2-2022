@@ -1,7 +1,7 @@
 #include "Book.h"
 
-Book::Book(const std::string& n, const std::string& a,const std::string& i):
-title(n), author(a),isbn(i),quantity(0) {
+Book::Book(const std::string& n, const std::string& a,const std::string& i,unsigned int c):
+title(n), author(a),isbn(i),quantity(c) {
 }
 
 std::string Book::getTitle() const {

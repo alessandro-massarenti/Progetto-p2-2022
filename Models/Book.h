@@ -4,7 +4,7 @@
 
 class Book {
 public:
-    Book(const std::string& name = "",const std::string& author = "",const std::string& isbn = "");
+    Book(const std::string& name = "",const std::string& author = "",const std::string& isbn = "",unsigned int count = 0);
     virtual ~Book() = default;
 
     std::string getTitle() const;

@@ -7,10 +7,14 @@ WorkModel::~WorkModel() {
 
 }
 
-std::vector<Book *> WorkModel::getLibrary() {
+std::vector<Book *>& WorkModel::getLibrary() {
     return library;
 }
 
-const std::string &WorkModel::getSavepath() {
+const std::string &WorkModel::getSavepath() const{
     return filepath;
+}
+
+void WorkModel::setSavePath(const std::string &s) {
+    filepath = s;
 }

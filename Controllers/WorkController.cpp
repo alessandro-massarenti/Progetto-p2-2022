@@ -1,7 +1,6 @@
 #include "WorkController.h"
-#include "Services/JsonSerializer.h"
-#include "Services/FileService.h"
-
+#include "Services/JsonHandler.h"
+#include <QFileDialog>
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p), workWindow(new WorkWindow()){
@@ -11,10 +10,12 @@ Controller(v,m,p), workWindow(new WorkWindow()){
 
 
     connect(workWindow,&WorkWindow::saveFile, this,&WorkController::saveFile);
+    connect(workWindow,&WorkWindow::openFile, this,&WorkController::openFile);
     connect(getView(),&WorkView::itemChanged, this,&WorkController::itemChanged);
-    connect(getView(),&WorkView::changeBookQuantity,this,&WorkController::changeBookQuantity);
-    connect(getView(),&WorkView::removeBook,this,&WorkController::removeBook);
-    connect(getView(),&WorkView::addBook,this,&WorkController::addBook);
+    connect(getView(),&WorkView::changeBookQuantity,this, &WorkController::changedBookQuantity);
+    connect(getView(),&WorkView::removeBook,this, &WorkController::removedBook);
+    connect(getView(),&WorkView::addBook,this, &WorkController::addedBook);
+    connect(this,&WorkController::modelChanged, this,&WorkController::updateView);
 
     workWindow->setCentralWidget(getView());
     workWindow->show();
@@ -43,24 +44,70 @@ void WorkController::itemChanged(unsigned int row, unsigned int column, const QS
     if(column == 2) book->setIdCode(data.toStdString());
 }
 
-void WorkController::changeBookQuantity(unsigned int row, int quantity) {
+void WorkController::changedBookQuantity(unsigned int row, int quantity) {
     getModel()->getLibrary()[row]->setQuantity(quantity);
 }
 
-void WorkController::removeBook(unsigned int row) {
+void WorkController::removedBook(unsigned int row) {
     delete getModel()->getLibrary()[row];
     getModel()->getLibrary().erase(getModel()->getLibrary().begin() + row);
     getView()->removeRowBooksTable(row);
 }
 
 
-void WorkController::addBook() {
+void WorkController::addedBook() {
     //TODO: non vengono aggiunti correttamente i libri
+
+    auto prova = getModel()->getLibrary();
+
+
     getModel()->getLibrary().push_back(new Book());
     getView()->addRowBooksTable({});
 }
 
 void WorkController::saveFile() {
-    FileService::saveToFile(JsonSerializer::serialize(getModel()->getLibrary()),QString::fromUtf8(getModel()->getSavepath()));
+    bool filepathPresent = false;
+    if(getModel()->getSavepath().empty()) filepathPresent = askSavePath();
+    else filepathPresent = true;
+    if(filepathPresent) {
+        JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
+                                QString::fromUtf8(getModel()->getSavepath()));
+    }
 }
 
+void WorkController::updateView() const {
+    getView()->clearBooksTable();
+    auto library = getModel()->getLibrary();
+
+    for(auto book : library){
+        getView()->addRowBooksTable(*book);
+    }
+}
+
+void WorkController::openFile() {
+    bool filepathPresent = false;
+    if(getModel()->getSavepath().empty()) filepathPresent = askOpenPath();
+    else filepathPresent = true;
+    if(filepathPresent) {
+        getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
+        emit modelChanged();
+    }
+}
+
+bool WorkController::askSavePath() {
+    auto save = QFileDialog::getSaveFileName(nullptr,
+                                             tr("Save Project"), "",
+                                             tr("Json (*.json);;All Files (*)"));
+    if(save.isNull()) return false;
+    getModel()->setSavePath(save.toStdString());
+    return true;
+}
+
+bool WorkController::askOpenPath() {
+    auto save = QFileDialog::getOpenFileName(nullptr,
+                                             tr("Save Project"), "",
+                                             tr("Json (*.json);;All Files (*)"));
+    if(save.isNull()) return false;
+    getModel()->setSavePath(save.toStdString());
+    return true;
+}

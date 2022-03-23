@@ -9,12 +9,13 @@
 
 class WorkModel : public Model{
 public:
-    explicit WorkModel(const std::string& path = "/Users/alessandro/Desktop/Prova.json");
+    explicit WorkModel(const std::string& path = "");
     ~WorkModel() override;
 
 
-    std::vector<Book*> getLibrary();
-    const std::string& getSavepath();
+    std::vector<Book*>& getLibrary();
+    const std::string& getSavepath() const;
+    void setSavePath(const std::string& savepath);
 
 private:
     std::string filepath;

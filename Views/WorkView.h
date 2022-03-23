@@ -20,6 +20,7 @@ public:
     void addRowBooksTable(const Book& book);
     void removeRowBooksTable(unsigned int row);
 
+    void clearBooksTable();
 
 signals:
     void itemChanged(unsigned int row, unsigned int column, const QString& data);

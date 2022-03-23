@@ -15,14 +15,22 @@ public:
     WorkView *getView() const override;
     WorkModel *getModel() const override;
 
+signals:
+    void modelChanged();
+
 public slots:
     void itemChanged(unsigned int row, unsigned int column, const QString& data);
-    void changeBookQuantity(unsigned int row, int quantity);
-    void removeBook(unsigned int row);
-    void addBook();
+    void changedBookQuantity(unsigned int row, int quantity);
+    void removedBook(unsigned int row);
+    void addedBook();
 
     void saveFile();
+    void openFile();
+
+    void updateView() const;
+
 private:
+    bool askSavePath();
+    bool askOpenPath();
     WorkWindow* workWindow;
 };
-
