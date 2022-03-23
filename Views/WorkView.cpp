@@ -47,7 +47,6 @@ void WorkView::createBooksTable() const {
 void WorkView::addRowBooksTable(const Book& book){
 
     unsigned int row = booksTable->rowCount();
-    qDebug() << row;
 
     booksTable->insertRow(row);
 
