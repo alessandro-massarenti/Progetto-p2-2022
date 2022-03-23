@@ -1,24 +1,24 @@
 #pragma once
 
-#include <string>
+#include <QString>
 
 class Book {
 public:
-    Book(const std::string& name = "",const std::string& author = "",const std::string& isbn = "",unsigned int count = 0);
+    Book(const QString& name = "",const QString& author = "",const QString& isbn = "",unsigned int count = 0);
     virtual ~Book() = default;
 
-    std::string getTitle() const;
-    std::string getAuthor() const;
-    std::string getIdCode() const;
+    QString getTitle() const;
+    QString getAuthor() const;
+    QString getIdCode() const;
     unsigned int getQuantity() const;
 
-    void setTitle(const std::string& title);
-    void setAutor(const std::string& author);
-    void setIdCode(const std::string& idCode);
+    void setTitle(const QString& title);
+    void setAutor(const QString& author);
+    void setIdCode(const QString& idCode);
     void setQuantity(unsigned int quantity);
 private:
-    std::string title;
-    std::string author;
-    std::string isbn;
+    QString title;
+    QString author;
+    QString isbn;
     unsigned int quantity;
 };
