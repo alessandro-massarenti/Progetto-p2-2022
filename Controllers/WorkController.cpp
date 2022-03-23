@@ -67,7 +67,7 @@ void WorkController::addedBook() {
 
 void WorkController::saveFile() {
     bool filepathPresent = false;
-    if(getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
+    if(getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if(filepathPresent) {
         JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
@@ -86,7 +86,7 @@ void WorkController::updateView() const {
 
 void WorkController::openFile() {
     bool filepathPresent = false;
-    if(getModel()->getSavepath().isNull()) filepathPresent = askOpenPath();
+    if(getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askOpenPath();
     else filepathPresent = true;
     if(filepathPresent) {
         getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());

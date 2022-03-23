@@ -6,7 +6,7 @@
 
 
 WorkView::WorkView(View *parent) :
-View(parent), mainLayout(new QGridLayout(this)), booksTable(new QTableWidget(this)){
+        View(parent), mainLayout(new QGridLayout(this)), booksTable(new QTableWidget(this)){
 
     // Grid layout with 3 buttons
     mainLayout->setSpacing(10);
@@ -47,7 +47,6 @@ void WorkView::createBooksTable() const {
 void WorkView::addRowBooksTable(const Book& book){
 
     unsigned int row = booksTable->rowCount();
-    qDebug() << row;
 
     booksTable->insertRow(row);
 
@@ -60,7 +59,7 @@ void WorkView::addRowBooksTable(const Book& book){
     bookCount->setValue(book.getQuantity());
     bookCount->setRange(0,1000);
     booksTable->setCellWidget(row,3,bookCount);
-    connect(bookCount,&QSpinBox::valueChanged,[this,bookCount](int value){
+    connect(bookCount,static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,bookCount](int value){
         unsigned int row = booksTable->indexAt(bookCount->pos()).row();
         emit changeBookQuantity(row,value);
     });
