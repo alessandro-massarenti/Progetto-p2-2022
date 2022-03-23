@@ -16,9 +16,12 @@ public:
     WorkModel *getModel() const override;
 
 public slots:
+    void itemChanged(unsigned int row, unsigned int column, const QString& data);
     void changeBookQuantity(unsigned int row, int quantity);
     void removeBook(unsigned int row);
     void addBook();
+
+    void saveFile();
 private:
     WorkWindow* workWindow;
 };
