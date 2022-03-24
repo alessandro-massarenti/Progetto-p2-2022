@@ -86,8 +86,7 @@ void WorkController::updateView() const {
 
 void WorkController::openFile() {
     bool filepathPresent = false;
-    if(getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askOpenPath();
-    else filepathPresent = true;
+    filepathPresent = askOpenPath();
     if(filepathPresent) {
         getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
         emit modelChanged();
@@ -110,4 +109,8 @@ bool WorkController::askOpenPath() {
     if(save.isNull()) return false;
     getModel()->setSavePath(save);
     return true;
+}
+
+void WorkController::closeFile() {
+    getView()->clearBooksTable();
 }

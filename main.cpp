@@ -1,14 +1,15 @@
 #include <QApplication>
-#include "Controllers/SplashController.h"
-#include "Views/SplashView.h"
+
+#include "Views/WorkView.h"
+#include "Controllers/WorkController.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    auto splashView = new SplashView();
-    auto splashController = new SplashController(splashView);
-    splashController->showView();
+    auto workView = new WorkView();
+    auto workController = new WorkController(workView);
+    workController->showView();
 
     return QApplication::exec();
 }

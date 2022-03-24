@@ -26,6 +26,7 @@ public slots:
 
     void saveFile();
     void openFile();
+    void closeFile();
 
     void updateView() const;
 
