@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Model.h"
-#include <string>
-#include <vector>
+#include <QString>
+#include <QVector>
 #include "Book.h"
 
 //Todo: to be defined
@@ -13,11 +13,13 @@ public:
     ~WorkModel() override;
 
 
-    std::vector<Book*>& getLibrary();
+    QVector<Book*>& getLibrary();
     const QString& getSavepath() const;
     void setSavePath(const QString& savepath);
+    QVector<QString> getAuthors();
+    int getSmallestYear();
 
 private:
     QString filepath;
-    std::vector<Book*> library;
+    QVector<Book*> library;
 };

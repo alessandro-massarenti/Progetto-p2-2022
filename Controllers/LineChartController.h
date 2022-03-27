@@ -8,7 +8,12 @@ class LineChartController : public Controller{
 public:
     explicit LineChartController(LineChartView* view,WorkModel* model, Controller* parent = nullptr);
 
-    View *getView() const override;
+    LineChartView *getView() const override;
+    WorkModel *getModel() const override;
 
-    Model *getModel() const override;
+protected:
+    void prepareData() const;
+
+private:
+
 };

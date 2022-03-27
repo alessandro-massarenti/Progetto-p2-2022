@@ -3,7 +3,7 @@
 #include <QString>
 #include <QJsonObject>
 #include "Models/Book.h"
-#include <vector>
+#include <QVector>
 
 /**
  * @brief Classe statica non allocabile
@@ -13,9 +13,9 @@ public:
     JsonHandler() = delete;
 
     static bool saveToFile(const QString & data, const QString& path);
-    static std::vector<Book*>* openFrom(const QString & savePath);
+    static QVector<Book*>* openFrom(const QString & savePath);
 
     static QJsonObject serialize(const Book& b);
-    static QString serialize(const std::vector<Book*>& library);
-    static std::vector<Book*>* deSerialize(const QJsonObject& jo);
+    static QString serialize(const QVector<Book*>& library);
+    static QVector<Book*>* deSerialize(const QJsonObject& jo);
 };
