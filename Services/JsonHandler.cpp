@@ -18,7 +18,7 @@ bool JsonHandler::saveToFile(const QString & data, const QString& path) {
     return true;
 }
 
-std::vector<Book*>* JsonHandler::openFrom(const QString& savePath) {
+QVector<Book*>* JsonHandler::openFrom(const QString& savePath) {
     QFile loadFile(savePath);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
@@ -43,7 +43,7 @@ QJsonObject JsonHandler::serialize(const Book &b) {
     return record;
 }
 
-QString JsonHandler::serialize(const std::vector<Book *> & library) {
+QString JsonHandler::serialize(const QVector<Book *> & library) {
     QJsonObject project;
 
     QJsonArray records;
@@ -58,8 +58,8 @@ QString JsonHandler::serialize(const std::vector<Book *> & library) {
     return saveDoc.toJson();
 }
 
-std::vector<Book *> *JsonHandler::deSerialize(const QJsonObject &json) {
-    auto aux = new std::vector<Book*>;
+QVector<Book *> *JsonHandler::deSerialize(const QJsonObject &json) {
+    auto aux = new QVector<Book*>;
 
     auto library = json["library"].toArray();
 

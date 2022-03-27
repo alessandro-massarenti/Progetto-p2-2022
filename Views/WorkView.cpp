@@ -20,15 +20,21 @@ WorkView::WorkView(View *parent) :
 }
 
 void WorkView::makeInsertGUI() {
+    //Bottoni
     auto addBookButton = new QPushButton("Aggiungi libro",this);
-
-
-    connect(addBookButton,&QPushButton::clicked,this,&WorkView::addBook);
 
     auto booksPerAuthor = new QPushButton("Show books per author",this); //Barre
     auto authors = new QPushButton("Show authors distribution",this); //torta
     auto yearlyPubblications = new QPushButton("Show yearly pubblications");  //Linee
 
+    //Connessioni
+    connect(addBookButton,&QPushButton::clicked,this,&WorkView::addBook);
+
+    connect(booksPerAuthor,&QPushButton::clicked, this,&WorkView::getBars);
+    connect(authors,&QPushButton::clicked, this,&WorkView::getPie);
+    connect(yearlyPubblications,&QPushButton::clicked, this,&WorkView::getLines);
+
+    //Inserimento nel layout
     mainLayout->addWidget(addBookButton, 0, 0, 1, 1);
     mainLayout->addWidget(booksPerAuthor,0,1,1,1);
     mainLayout->addWidget(authors,0,2,1,1);

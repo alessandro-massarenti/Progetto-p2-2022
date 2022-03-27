@@ -29,10 +29,17 @@ public slots:
     void openFile();
     void closeFile();
 
+    void barChartClicked();
+    void pieChartClicked();
+    void lineChartClicked();
+
+
     void updateView() const;
 
 private:
     bool askSavePath();
     bool askOpenPath();
     WorkWindow* workWindow;
+
+    void connectToView() const;
 };

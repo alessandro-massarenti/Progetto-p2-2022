@@ -29,6 +29,11 @@ signals:
     void removeBook(unsigned int row);
     void addBook();
 
+    void getBars();
+    void getPie();
+    void getLines();
+
+
 private:
     void makeInsertGUI();
 
