@@ -24,12 +24,16 @@ public:
 
 signals:
     void itemChanged(unsigned int row, unsigned int column, const QString& data);
+    void changeYear(unsigned int row, int year);
     void changeBookQuantity(unsigned int row, int quantity);
     void removeBook(unsigned int row);
     void addBook();
 
 private:
     void makeInsertGUI();
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     QGridLayout* mainLayout;

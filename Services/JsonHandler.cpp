@@ -37,7 +37,7 @@ QJsonObject JsonHandler::serialize(const Book &b) {
     QJsonObject record;
     record["title"] = b.getTitle();
     record["author"] = b.getAuthor();
-    record["code"] = b.getIdCode();
+    record["year"] = b.getPubYear();
     record["quantity"] = a;
 
     return record;
@@ -66,9 +66,10 @@ std::vector<Book *> *JsonHandler::deSerialize(const QJsonObject &json) {
     for (auto book: library) {
 
         auto libro = book.toObject();
+        
         aux->push_back(new Book(libro["title"].toString(),
                                 libro["author"].toString(),
-                                libro["code"].toString(),
+                                libro["year"].toInt(),
                                 libro["quantity"].toInt()));
     }
     return aux;
