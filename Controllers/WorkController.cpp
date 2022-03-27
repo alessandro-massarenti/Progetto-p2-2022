@@ -2,6 +2,9 @@
 #include "Services/JsonHandler.h"
 #include <QFileDialog>
 
+#include "Views/LineChartView.h"
+#include "Controllers/LineChartController.h"
+
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p), workWindow(new WorkWindow()){
 
@@ -9,17 +12,25 @@ Controller(v,m,p), workWindow(new WorkWindow()){
     getView()->createBooksTable();
 
 
-    connect(workWindow,&WorkWindow::saveFile, this,&WorkController::saveFile);
-    connect(workWindow,&WorkWindow::openFile, this,&WorkController::openFile);
-    connect(getView(),&WorkView::itemChanged, this,&WorkController::itemChanged);
-    connect(getView(),&WorkView::changeYear, this,&WorkController::changedYear);
-    connect(getView(),&WorkView::changeBookQuantity,this, &WorkController::changedBookQuantity);
-    connect(getView(),&WorkView::removeBook,this, &WorkController::removedBook);
-    connect(getView(),&WorkView::addBook,this, &WorkController::addedBook);
-    connect(this,&WorkController::modelChanged, this,&WorkController::updateView);
+    connectToView();
 
     workWindow->setCentralWidget(getView());
     workWindow->show();
+}
+
+void WorkController::connectToView() const {
+    connect(workWindow, &WorkWindow::saveFile, this, &WorkController::saveFile);
+    connect(workWindow, &WorkWindow::openFile, this, &WorkController::openFile);
+    connect(getView(), &WorkView::itemChanged, this, &WorkController::itemChanged);
+    connect(getView(), &WorkView::changeYear, this, &WorkController::changedYear);
+    connect(getView(), &WorkView::changeBookQuantity, this, &WorkController::changedBookQuantity);
+    connect(getView(), &WorkView::removeBook, this, &WorkController::removedBook);
+    connect(getView(), &WorkView::addBook, this, &WorkController::addedBook);
+
+    //Chart buttons
+    connect(getView(),&WorkView::getLines, this,&WorkController::lineChartClicked);
+
+    connect(this,&WorkController::modelChanged, this,&WorkController::updateView);
 }
 
 
@@ -113,4 +124,23 @@ bool WorkController::askOpenPath() {
 
 void WorkController::closeFile() {
     getView()->clearBooksTable();
+}
+
+void WorkController::barChartClicked() {
+    //TODO:Implement
+}
+
+void WorkController::pieChartClicked() {
+    //TODO:Implement
+}
+
+void WorkController::lineChartClicked(){
+    if(getModel()->getLibrary().empty()){
+        //TODO:view->showWarning
+        return;
+    }
+
+    auto lineChartView = new LineChartView(view);
+    auto lineChartController = new LineChartController(lineChartView, getModel(), this);
+    lineChartController->showView();
 }
