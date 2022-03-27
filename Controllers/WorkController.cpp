@@ -12,6 +12,7 @@ Controller(v,m,p), workWindow(new WorkWindow()){
     connect(workWindow,&WorkWindow::saveFile, this,&WorkController::saveFile);
     connect(workWindow,&WorkWindow::openFile, this,&WorkController::openFile);
     connect(getView(),&WorkView::itemChanged, this,&WorkController::itemChanged);
+    connect(getView(),&WorkView::changeYear, this,&WorkController::changedYear);
     connect(getView(),&WorkView::changeBookQuantity,this, &WorkController::changedBookQuantity);
     connect(getView(),&WorkView::removeBook,this, &WorkController::removedBook);
     connect(getView(),&WorkView::addBook,this, &WorkController::addedBook);
@@ -19,10 +20,6 @@ Controller(v,m,p), workWindow(new WorkWindow()){
 
     workWindow->setCentralWidget(getView());
     workWindow->show();
-
-
-
-    //TODO: Levare queste cose perchè sono solo per il debug
 }
 
 
@@ -41,7 +38,10 @@ void WorkController::itemChanged(unsigned int row, unsigned int column, const QS
     auto book = getModel()->getLibrary()[row];
     if(column == 0) book->setTitle(data);
     if(column == 1) book->setAutor(data);
-    if(column == 2) book->setIdCode(data);
+}
+
+void WorkController::changedYear(unsigned int row, int year) {
+    getModel()->getLibrary()[row]->setPubYear(year);
 }
 
 void WorkController::changedBookQuantity(unsigned int row, int quantity) {

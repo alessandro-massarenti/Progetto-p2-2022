@@ -20,6 +20,7 @@ signals:
 
 public slots:
     void itemChanged(unsigned int row, unsigned int column, const QString& data);
+    void changedYear(unsigned int row, int year);
     void changedBookQuantity(unsigned int row, int quantity);
     void removedBook(unsigned int row);
     void addedBook();
