@@ -1,8 +1,5 @@
-//
-// Created by Alessandro Massarenti on 27/03/22.
-//
-
 #include "LineChartController.h"
+#include <QMap>
 
 LineChartController::LineChartController(LineChartView *v, WorkModel *m, Controller *p) :
         Controller(v, m, p) {
@@ -20,53 +17,27 @@ WorkModel *LineChartController::getModel() const {
 void LineChartController::prepareData() const {
     auto library = getModel()->getLibrary();
 
-    //Dovrò mostrare più linee e quindi più set di dati.
-    //Linea del totale(Ovvero ogni anno e la somma dei libri pubblicati in quell'anno più quelli pubblicati prima)
-    //Una linea per ogni autore
 
-    //Trova tutti gli autori
-    QVector<QString> authors = getModel()->getAuthors();
+    /*
+    QVector<int> years;
+    QVector<int> values;
+    */
 
+    QMap<int,int> data;
 
-    for (qsizetype i = 0; i < authors.size(); ++i) {
-        QVector<int> years;
-        QVector<int> values;
+    for (qsizetype i = 0; i < library.size(); ++i) {
 
-        years.push_back(getModel()->getSmallestYear());
-        values.push_back(0);
-
-        //Scorro nella libreria per vedere se trovo libri di questo autore
-        for (qsizetype y = 0; y < library.size(); ++y) {
-
-            qDebug() << "guardo libro " << library[i];
-
-            if (library[y]->getAuthor() == authors[i]) {
-
-                qDebug() << "controllo " << authors[i];
-
-                bool trovato = false;
-                //Cerco se esiste già un anno come quello di questo libro
-                for (qsizetype j = 0; j < years.size(); ++j) {
-                    //Se esiste aggiorno il numero di libri di quell'anno
-                    if (library[y]->getPubYear() == years[j]) values[j]++;
-                    trovato = true;
-                }
-
-                if(trovato == false){
-                    years.push_back(library[y]->getPubYear());
-                    values.push_back(1);
-                }
-
-                //Elimino il libro dalla libreria
-                library.remove(y);
-                qDebug() << y << " --- " << library.size();
+        bool trovato = false;
+        for (qsizetype j = 0; j < data.size(); ++j) {
+            if (data.find(library[i]->getPubYear()) != data.end() ) {
+                data[library[i]->getPubYear()]++;
+                trovato = true;
             }
-            qDebug() << "prova";
-
         }
-        getView()->insertLine(authors[i], years, values);
-        qDebug() << "prova2";
+        if (!trovato) {
+            data[library[i]->getPubYear()] = 1;
+        }
     }
+
+    getView()->insertLine("Total", data.keys(), data.values());
 }
-
-

@@ -5,6 +5,7 @@
 
 WorkWindow::WorkWindow(WorkWindow *parent) : QMainWindow(parent){
     createActions();
+    resize(800,600);
 }
 
 void WorkWindow::createActions() {
