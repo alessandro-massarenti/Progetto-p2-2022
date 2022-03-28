@@ -3,6 +3,7 @@
 #include "View.h"
 #include <QChart>
 #include <QList>
+#include <QtCharts>
 
 class LineChartView : public View{
 Q_OBJECT
