@@ -2,7 +2,7 @@
 #include <QMap>
 
 LineChartController::LineChartController(LineChartView *v, WorkModel *m, Controller *p) :
-        Controller(v, m, p) {
+        ChartController(v, m, p) {
     prepareData();
 }
 
@@ -10,18 +10,8 @@ LineChartView *LineChartController::getView() const {
     return static_cast<LineChartView *>(view);
 }
 
-WorkModel *LineChartController::getModel() const {
-    return static_cast<WorkModel *>(model);
-}
-
 void LineChartController::prepareData() const {
     auto library = getModel()->getLibrary();
-
-
-    /*
-    QVector<int> years;
-    QVector<int> values;
-    */
 
     QMap<int,int> data;
 
