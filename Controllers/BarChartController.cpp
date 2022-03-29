@@ -9,10 +9,30 @@ BarChartController::BarChartController(BarChartView *v, WorkModel *m, Controller
 
 void BarChartController::prepareData() const {
 
-    QList<QString> authors;
+    //TODO:Poco efficiente, andrebbe resa più efficiente
+    QList<QString> authors = getModel()->getAuthors();
     QList<int> publishedCopies;
 
-    getView()->setBottomLabels(getModel()->getAuthors());
+    auto library = getModel()->getLibrary();
+
+    for(auto it = authors.begin();it < authors.end(); ++it){
+
+        int count = 0;
+        for(qsizetype i = 0 ; i < library.size(); ++i){
+            if(library[i]->getAuthor() == *it){
+                count ++;
+                library.remove(i);
+            }
+        }
+        publishedCopies.push_back(count);
+    }
+
+
+
+
+
+
+    getView()->setBottomLabels(authors);
 
     getView()->insertDataGroup("Total", publishedCopies);
 }

@@ -11,7 +11,7 @@ public:
     void setBottomLabels(const QStringList& labels);
 private:
 
-    QBarSerie* barSerie;
+    QBarSeries* barSerie;
     QStringList categories;
 
     void setupAxes();
