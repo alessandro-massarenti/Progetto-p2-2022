@@ -33,11 +33,6 @@ void BarChartController::prepareData() const {
     }
     qDebug() << "finisco";
 
-
-
-
-
-
     getView()->setBottomLabels(authors);
 
     getView()->insertDataGroup("Total", publishedCopies);

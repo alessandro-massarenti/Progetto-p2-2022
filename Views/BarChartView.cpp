@@ -8,6 +8,8 @@ BarChartView::BarChartView(View *parent) :
 
     chart->addSeries(barSerie);
 
+
+    barSerie->setLabelsVisible(true);
 }
 
 void BarChartView::setupAxes() {
@@ -35,6 +37,7 @@ void BarChartView::insertDataGroup(const QString &title, const QList<int> &value
     }
 
     barSerie->append(barSet);
+
 
 
 
