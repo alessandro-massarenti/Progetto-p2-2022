@@ -1,6 +1,7 @@
 #include "BarChartController.h"
 
 #include <QString>
+#include <QVector>
 
 BarChartController::BarChartController(BarChartView *v, WorkModel *m, Controller *p) :
         ChartController(v, m, p) {
@@ -10,7 +11,7 @@ BarChartController::BarChartController(BarChartView *v, WorkModel *m, Controller
 void BarChartController::prepareData() const {
 
     //TODO:Poco efficiente, andrebbe resa più efficiente
-    QList<QString> authors = getModel()->getAuthors();
+    QVector<QString> authors = getModel()->getAuthors();
     QList<int> publishedCopies;
 
     auto library = getModel()->getLibrary();
