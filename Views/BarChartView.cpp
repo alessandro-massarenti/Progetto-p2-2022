@@ -20,7 +20,7 @@ void BarChartView::setupAxes() {
     auto axisY = new QValueAxis();
     /*TODO:Sistemare il range relativamente all'altezza massima di una barra,
     in pratica va poi fatto appena prima di mostrare il grafico*/
-    axisY->setRange(0, max + 2);
+    axisY->setRange(0, max + 1);
     chart->addAxis(axisY, Qt::AlignLeft);
     barSerie->attachAxis(axisY);
 }
