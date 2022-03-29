@@ -15,4 +15,5 @@ private:
     QStringList categories;
 
     void setupAxes();
+    int max;
 };

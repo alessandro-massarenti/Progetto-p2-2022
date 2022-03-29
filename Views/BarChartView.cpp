@@ -3,11 +3,11 @@
 #include <QBarSeries>
 
 BarChartView::BarChartView(View *parent) :
-        ChartView(parent), barSerie(new QBarSeries()) {
+        ChartView(parent), barSerie(new QBarSeries()), max(0) {
     chart->setTitle("titoli pubblicati per autore");
 
     chart->addSeries(barSerie);
-    setupAxes();
+
 }
 
 void BarChartView::setupAxes() {
@@ -20,7 +20,7 @@ void BarChartView::setupAxes() {
     auto axisY = new QValueAxis();
     /*TODO:Sistemare il range relativamente all'altezza massima di una barra,
     in pratica va poi fatto appena prima di mostrare il grafico*/
-    axisY->setRange(0, 45);
+    axisY->setRange(0, max + 2);
     chart->addAxis(axisY, Qt::AlignLeft);
     barSerie->attachAxis(axisY);
 }
@@ -30,10 +30,15 @@ void BarChartView::insertDataGroup(const QString &title, const QList<int> &value
 
     auto barSet = new QBarSet(title);
     for (auto value: values) {
+        if(value > max) max = value;
         barSet->append(value);
     }
 
     barSerie->append(barSet);
+
+
+
+    setupAxes();
 }
 
 void BarChartView::setBottomLabels(const QStringList &l) {

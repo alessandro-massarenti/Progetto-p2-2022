@@ -25,6 +25,7 @@ void BarChartController::prepareData() const {
             }
         }
         publishedCopies.push_back(count);
+        qDebug() << count;
     }
 
 
