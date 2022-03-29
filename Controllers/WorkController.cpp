@@ -4,6 +4,8 @@
 
 #include "Views/LineChartView.h"
 #include "Controllers/LineChartController.h"
+#include "Views/BarChartView.h"
+#include "Controllers/BarChartController.h"
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p), workWindow(new WorkWindow()){
@@ -29,6 +31,8 @@ void WorkController::connectToView() const {
 
     //Chart buttons
     connect(getView(),&WorkView::getLines, this,&WorkController::lineChartClicked);
+    connect(getView(),&WorkView::getBars, this,&WorkController::barChartClicked);
+    connect(getView(),&WorkView::getPie, this,&WorkController::pieChartClicked);
 
     connect(this,&WorkController::modelChanged, this,&WorkController::updateView);
 }
@@ -131,7 +135,14 @@ void WorkController::barChartClicked() {
 }
 
 void WorkController::pieChartClicked() {
-    //TODO:Implement
+    if(getModel()->getLibrary().empty()){
+        //TODO:view->showWarning
+        return;
+    }
+
+    auto barChartView = new BarChartView(view);
+    auto barChartController = new BarChartController(barChartView, getModel(), this);
+    barChartController->showView();
 }
 
 void WorkController::lineChartClicked(){

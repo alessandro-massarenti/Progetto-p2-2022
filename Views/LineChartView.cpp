@@ -6,18 +6,8 @@
 #include <QScatterSeries>
 
 
-LineChartView::LineChartView(View *parent) : View(parent), chart(new QChart()) {
-    auto mainLayout = new QHBoxLayout;
+LineChartView::LineChartView(View *parent) : ChartView(parent) {
     chart->setTitle("Crescita titoli pubblicati negli anni");
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-    chart->setAnimationOptions(QChart::AllAnimations);
-
-    auto chartView = new QChartView(chart,this);
-    //chartView->setRenderHint(QPainter::Antialiasing);
-    mainLayout->addWidget(chartView);
-    setLayout(mainLayout);
-    showMaximized();
 }
 
 void LineChartView::insertLine(const QString &title, const QList<int>& years, QList<int> values) {
@@ -51,10 +41,7 @@ void LineChartView::insertLine(const QString &title, const QList<int>& years, QL
     chart->addSeries(scatterSerie);
     chart->createDefaultAxes();
 
+    //TODO:Spostare la gestione della dimensione degli assi in un metodo a parte
     chart->axes(Qt::Vertical)[0]->setRange(0, *std::max_element(values.begin(),values.end()) + 1);
     chart->axes(Qt::Horizontal)[0]->setRange(*std::min_element(years.begin(),years.end()) - 30, *std::max_element(years.begin(),years.end()) + 30);
-}
-
-LineChartView::~LineChartView() {
-    chart->deleteLater();
 }

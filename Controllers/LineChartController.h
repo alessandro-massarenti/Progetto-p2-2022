@@ -1,19 +1,14 @@
 #pragma once
 
-#include "Controller.h"
+#include "ChartController.h"
 #include "Views/LineChartView.h"
-#include "Models/WorkModel.h"
 
-class LineChartController : public Controller{
+class LineChartController : public ChartController{
+    Q_OBJECT
 public:
     explicit LineChartController(LineChartView* view,WorkModel* model, Controller* parent = nullptr);
 
+    //Implementazioni
     LineChartView *getView() const override;
-    WorkModel *getModel() const override;
-
-protected:
-    void prepareData() const;
-
-private:
-
+    void prepareData() const override;
 };
