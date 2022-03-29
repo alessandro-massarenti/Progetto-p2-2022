@@ -14,7 +14,6 @@ BarChartView::BarChartView(View *parent) :
 
 void BarChartView::setupAxes() {
     auto axisX = new QBarCategoryAxis();
-    qDebug() << categories;
     axisX->append(categories);
     chart->addAxis(axisX, Qt::AlignBottom);
     barSerie->attachAxis(axisX);
@@ -32,13 +31,11 @@ void BarChartView::insertDataGroup(const QString &title, const QList<int> &value
 
     auto barSet = new QBarSet(title);
     for (auto value: values) {
-        if(value > max) max = value;
+        if (value > max) max = value;
         barSet->append(value);
     }
 
     barSerie->append(barSet);
-
-
 
 
     setupAxes();

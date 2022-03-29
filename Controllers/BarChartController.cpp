@@ -15,23 +15,18 @@ void BarChartController::prepareData() const {
 
     auto library = getModel()->getLibrary();
 
-    qDebug() << "inizio";
-    for(auto it = authors.begin();it < authors.end(); ++it){
+    for (auto it = authors.begin(); it < authors.end(); ++it) {
 
         int count = 0;
-        for(qsizetype i = 0 ; i < library.size(); ++i){
-            qDebug() << *it << " " << library[i]->getAuthor();
-            if(library[i]->getAuthor() == *it){
-                qDebug() << "match" << *it;
-                count ++;
+        for (qsizetype i = 0; i < library.size(); ++i) {
+            if (library[i]->getAuthor() == *it) {
+                count++;
                 library.remove(i);
                 --i;
             }
         }
         publishedCopies.push_back(count);
-        qDebug() << count;
     }
-    qDebug() << "finisco";
 
     getView()->setBottomLabels(authors);
 
