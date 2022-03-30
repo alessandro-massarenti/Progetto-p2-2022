@@ -12,18 +12,21 @@ void PieChartController::prepareData() const {
     QList<int> bookCount;
 
     for (qsizetype i = 0; i < authors.size(); ++i) {
+        qDebug() << "Ciclo autori";
 
         int tot = 0;
-        for(qsizetype j = 0; j < library.size(); ++i){
+        for(qsizetype j = 0; j < library.size(); ++j){
+            qDebug() << "Ciclo libreria";
             if(authors[i] == library[j]->getAuthor()){
+                qDebug() << library[j];
                 tot += library[j]->getQuantity();
                 library.remove(j);
-                --i;
+                --j;
             }
-
         }
         bookCount.push_back(tot);
     }
+    qDebug() << "prepare completato";
     getView()->insertData(authors, bookCount);
 }
 
