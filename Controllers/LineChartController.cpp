@@ -11,7 +11,7 @@ LineChartView *LineChartController::getView() const {
 }
 
 void LineChartController::prepareData() const {
-    auto library = getModel()->getLibrary();
+    auto& library = getModel()->getLibrary();
 
     QMap<int,int> data;
 
