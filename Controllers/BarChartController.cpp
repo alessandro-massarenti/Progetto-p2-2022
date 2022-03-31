@@ -21,7 +21,8 @@ void BarChartController::prepareData() const {
         for (auto it2 = library.begin(); it2 < library.end(); ++it2) {
             if ((*it2)->getAuthor() == *it) {
                 count++;
-                library.erase(it2);
+                it2 = library.erase(it2);
+                it2 --;
             }
         }
         publishedCopies.push_back(count);

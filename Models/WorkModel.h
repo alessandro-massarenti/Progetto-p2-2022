@@ -12,6 +12,9 @@ public:
     explicit WorkModel(const QString& path = "");
 
 
+    /**
+     * @brief Funzione che ritorna la libreria di libri
+     * */
     QVector<Book*>& getLibrary();
     const QString& getSavepath() const;
     void setSavePath(const QString& savepath);
