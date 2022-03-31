@@ -2,7 +2,7 @@
 
 #include "Model.h"
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "Book.h"
 
 //Todo: to be defined
@@ -10,13 +10,15 @@
 class WorkModel : public Model{
 public:
     explicit WorkModel(const QString& path = "");
-    ~WorkModel() override;
 
 
+    /**
+     * @brief Funzione che ritorna la libreria di libri
+     * */
     QVector<Book*>& getLibrary();
     const QString& getSavepath() const;
     void setSavePath(const QString& savepath);
-    QVector<QString> getAuthors();
+    QList<QString> getAuthors();
     int getSmallestYear();
 
 private:

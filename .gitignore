@@ -3,6 +3,7 @@
 
 Makefile
 progetto.app
+progetto
 *.o
 qrc_*
 moc_*

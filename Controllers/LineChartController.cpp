@@ -11,11 +11,11 @@ LineChartView *LineChartController::getView() const {
 }
 
 void LineChartController::prepareData() const {
-    auto library = getModel()->getLibrary();
+    auto& library = getModel()->getLibrary();
 
     QMap<int,int> data;
 
-    for (qsizetype i = 0; i < library.size(); ++i) {
+    for (auto  i = 0; i < library.size(); ++i) {
 
         bool trovato = false;
 

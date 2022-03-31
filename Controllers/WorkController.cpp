@@ -2,10 +2,15 @@
 #include "Services/JsonHandler.h"
 #include <QFileDialog>
 
-#include "Views/LineChartView.h"
-#include "Controllers/LineChartController.h"
 #include "Views/BarChartView.h"
 #include "Controllers/BarChartController.h"
+
+#include "Views/PieChartView.h"
+#include "Controllers/PieChartController.h"
+
+#include "Views/LineChartView.h"
+#include "Controllers/LineChartController.h"
+
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 Controller(v,m,p), workWindow(new WorkWindow()){
@@ -131,10 +136,6 @@ void WorkController::closeFile() {
 }
 
 void WorkController::barChartClicked() {
-    //TODO:Implement
-}
-
-void WorkController::pieChartClicked() {
     if(getModel()->getLibrary().empty()){
         //TODO:view->showWarning
         return;
@@ -143,6 +144,17 @@ void WorkController::pieChartClicked() {
     auto barChartView = new BarChartView(view);
     auto barChartController = new BarChartController(barChartView, getModel(), this);
     barChartController->showView();
+}
+
+void WorkController::pieChartClicked() {
+    if(getModel()->getLibrary().empty()){
+        //TODO:view->showWarning
+        return;
+    }
+
+    auto pieChartView = new PieChartView(getView());
+    auto pieChartController = new PieChartController(pieChartView, getModel(), this);
+    pieChartController->showView();
 }
 
 void WorkController::lineChartClicked(){
