@@ -4,8 +4,10 @@
 
 #include "Views/BarChartView.h"
 #include "Controllers/BarChartController.h"
+
 #include "Views/PieChartView.h"
 #include "Controllers/PieChartController.h"
+
 #include "Views/LineChartView.h"
 #include "Controllers/LineChartController.h"
 
@@ -150,7 +152,7 @@ void WorkController::pieChartClicked() {
         return;
     }
 
-    auto pieChartView = new PieChartView(view);
+    auto pieChartView = new PieChartView(getView());
     auto pieChartController = new PieChartController(pieChartView, getModel(), this);
     pieChartController->showView();
 }

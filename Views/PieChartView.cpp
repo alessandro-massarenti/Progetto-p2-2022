@@ -9,7 +9,7 @@ void PieChartView::insertData(const QList<QString> &authors, const QList<int> &v
 
     auto pieSeries = new QPieSeries();
 
-    for (qsizetype i = 0; i < authors.size(); ++i) {
+    for (auto i = 0; i < authors.size(); ++i) {
         pieSeries->append(authors[i], values[i]);
     }
 
