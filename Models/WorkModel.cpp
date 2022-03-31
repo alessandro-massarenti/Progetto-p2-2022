@@ -1,11 +1,7 @@
 #include "WorkModel.h"
 
-WorkModel::WorkModel(const QString &path) : filepath(path) {
-}
-
-WorkModel::~WorkModel() {
-
-}
+WorkModel::WorkModel(const QString &path) :
+        filepath(path) {}
 
 QVector<Book *> &WorkModel::getLibrary() {
     return library;
@@ -19,7 +15,7 @@ void WorkModel::setSavePath(const QString &s) {
     filepath = s;
 }
 
-QVector<QString> WorkModel::getAuthors() {
+QList<QString> WorkModel::getAuthors() {
     QVector<QString> authors;
     for (auto book: library) {
         bool trovato = false;
@@ -34,7 +30,7 @@ QVector<QString> WorkModel::getAuthors() {
 
 int WorkModel::getSmallestYear() {
     int smallestYear = library[0]->getPubYear();
-    for(auto book : library)
-        if(book->getPubYear() < smallestYear) smallestYear = book->getPubYear();
+    for (auto book: library)
+        if (book->getPubYear() < smallestYear) smallestYear = book->getPubYear();
     return smallestYear;
 }
