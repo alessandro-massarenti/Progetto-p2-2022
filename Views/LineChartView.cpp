@@ -17,7 +17,7 @@ void LineChartView::insertLine(const QString &title, const QList<int>& years, QL
 
     lineSerie->setName(title);
 
-    for(qsizetype i = 0; i < years.count(); ++i ){
+    for(auto i = 0; i < years.count(); ++i ){
         if(i > 0 ) values[i] += values[i-1];
         
         lineSerie->append(years[i],values[i]);

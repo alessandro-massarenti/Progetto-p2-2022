@@ -16,7 +16,7 @@ void WorkModel::setSavePath(const QString &s) {
 }
 
 QList<QString> WorkModel::getAuthors() {
-    QVector<QString> authors;
+    QList<QString> authors;
     for (auto book: library) {
         bool trovato = false;
         for (auto author: authors) {
