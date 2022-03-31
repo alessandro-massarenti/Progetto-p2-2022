@@ -18,11 +18,10 @@ void BarChartController::prepareData() const {
     for (auto it = authors.begin(); it < authors.end(); ++it) {
 
         int count = 0;
-        for (qsizetype i = 0; i < library.size(); ++i) {
-            if (library[i]->getAuthor() == *it) {
+        for (auto it2 = library.begin(); it2 < library.end(); ++it2) {
+            if ((*it2)->getAuthor() == *it) {
                 count++;
-                library.remove(i);
-                --i;
+                library.erase(it2);
             }
         }
         publishedCopies.push_back(count);
