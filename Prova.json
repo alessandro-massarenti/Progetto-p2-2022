@@ -1,0 +1,70 @@
+{
+    "library": [
+        {
+            "author": "Daniel Defoe",
+            "quantity": 2,
+            "title": "Robinson Crusoe",
+            "year": 1719
+        },
+        {
+            "author": "Jules Verne",
+            "quantity": 3,
+            "title": "Ventimila leghe sotto i mari",
+            "year": 1870
+        },
+        {
+            "author": "Harper Lee",
+            "quantity": 1,
+            "title": "Il buio oltre la siepe",
+            "year": 1960
+        },
+        {
+            "author": "Ernest Hemingway",
+            "quantity": 3,
+            "title": "Il vecchio e il mare",
+            "year": 1952
+        },
+        {
+            "author": "Jules Verne",
+            "quantity": 1,
+            "title": "Il giro del mondo in 80 giorni",
+            "year": 1872
+        },
+        {
+            "author": "Joseph Conrad",
+            "quantity": 1,
+            "title": "Cuore di tenebra",
+            "year": 1899
+        },
+        {
+            "author": "Joseph Conrad",
+            "quantity": 1,
+            "title": "Tifone",
+            "year": 1902
+        },
+        {
+            "author": "Alessandro Manzoni",
+            "quantity": 2,
+            "title": "I promessi sposi",
+            "year": 1827
+        },
+        {
+            "author": "Arthur Schopenhauer",
+            "quantity": 1,
+            "title": "Parerga e Paralipomena",
+            "year": 1851
+        },
+        {
+            "author": "Charles Dickens",
+            "quantity": 1,
+            "title": "Il natale da adulti",
+            "year": 1851
+        },
+        {
+            "author": "Jules Verne",
+            "quantity": 1,
+            "title": "Viaggio al centro della terra",
+            "year": 1864
+        }
+    ]
+}
