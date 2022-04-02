@@ -5,8 +5,6 @@
 #include <QList>
 #include "Book.h"
 
-//Todo: to be defined
-
 class WorkModel : public Model{
 public:
     explicit WorkModel(const QString& path = "");

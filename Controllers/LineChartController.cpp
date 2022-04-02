@@ -11,23 +11,23 @@ LineChartView *LineChartController::getView() const {
 }
 
 void LineChartController::prepareData() const {
-    auto& library = getModel()->getLibrary();
-
-    QMap<int,int> data;
-
-    for (auto  i = 0; i < library.size(); ++i) {
-
-        bool trovato = false;
-
-        if (data.find(library[i]->getPubYear()) != data.end() ) {
-            data[library[i]->getPubYear()]++;
-            trovato = true;
-        }
-
-        if (!trovato) {
-            data[library[i]->getPubYear()] = 1;
-        }
-    }
+    QMap<int, int> data = convertData();
 
     getView()->insertLine("Total", data.keys(), data.values());
+}
+
+QMap<int, int> LineChartController::convertData() const {
+    QMap<int,int> aux;
+
+    for (const auto & book :  getModel()->getLibrary()) {
+
+        auto d = aux.find(book->getPubYear());
+
+        if (d != aux.end() )
+            d.value()++;
+        else
+            aux.insert(book->getPubYear(), 1);
+    }
+    
+    return aux;
 }

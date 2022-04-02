@@ -11,4 +11,6 @@ public:
     //Implementazioni
     LineChartView *getView() const override;
     void prepareData() const override;
+
+    QMap<int, int> convertData() const;
 };

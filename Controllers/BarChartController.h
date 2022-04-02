@@ -12,6 +12,8 @@ public:
     BarChartView *getView() const override;
     void prepareData() const override;
 
-    //Metodi specifici della classe
+    QList<int> convertData() const;
+
+private:
 
 };
