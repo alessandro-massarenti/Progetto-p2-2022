@@ -5,14 +5,16 @@
 #include <QList>
 #include "Book.h"
 
+/**@brief
+ * Responsibility:
+ * - representation of the work model
+ * - knows where it is saved on disk or if is not saved on it
+ * */
 class WorkModel : public Model{
 public:
     explicit WorkModel(const QString& path = "");
 
-
-    /**
-     * @brief Funzione che ritorna la libreria di libri
-     * */
+    /**@brief Funzione che ritorna la libreria di libri*/
     QVector<Book*>& getLibrary();
     const QString& getSavepath() const;
     void setSavePath(const QString& savepath);
