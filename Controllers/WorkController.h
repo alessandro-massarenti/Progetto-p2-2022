@@ -17,25 +17,47 @@ public:
     WorkModel *getModel() const override;
 
 signals:
+    /**@brief Signals that the model has changed*/
     void modelChanged();
 
 public slots:
-    void itemChanged(unsigned int row, unsigned int column, const QString& data);
-    void changedYear(unsigned int row, int year);
-    void changedBookQuantity(unsigned int row, int quantity);
-    void removedBook(unsigned int row);
-    void addedBook();
+    //library table related methods
+    /**@brief Handles changes of items in the library table*/
+    void handleItemChanged(unsigned int row, unsigned int column, const QString& data);
 
+    /**@brief Handles changes of year in the library table*/
+    void handleYearChanged(unsigned int row, int year) const;
+
+    /**@brief Handles changes of the book quantity in the library table*/
+    void handleBookQuantityChanged(unsigned int row, int quantity);
+
+    /**@brief Removes the specified book
+     * model: removes the specified book from the library table
+     * view: removes the specified book from the book table
+     *
+     * emits "modelChanged()"*/
+    void removeBook(unsigned int row);
+
+    /**@brief Adds a book
+     * model: adds a book to the library table
+     * view: adds a row on the book table
+     *
+     * emits "modelChanged()"*/
+    void addBook();
+
+    //File related methods
     void saveFile();
     void openFile();
-    void closeFile();
+    void closeFile() const;
 
+    //View related methods
     void updateView() const;
 
 private:
     enum class ChartRequest { Bars,Pie,Lines };
-    bool askSavePath();
-    bool askOpenPath();
+
+    bool askSavePath() const;
+    bool askOpenPath() const;
     void showChart(ChartRequest cr);
     void connectToView();
 

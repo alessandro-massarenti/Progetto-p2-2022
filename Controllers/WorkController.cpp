@@ -28,11 +28,11 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 void WorkController::connectToView(){
     connect(workWindow, &WorkWindow::saveFile, this, &WorkController::saveFile);
     connect(workWindow, &WorkWindow::openFile, this, &WorkController::openFile);
-    connect(getView(), &WorkView::itemChanged, this, &WorkController::itemChanged);
-    connect(getView(), &WorkView::changeYear, this, &WorkController::changedYear);
-    connect(getView(), &WorkView::changeBookQuantity, this, &WorkController::changedBookQuantity);
-    connect(getView(), &WorkView::removeBook, this, &WorkController::removedBook);
-    connect(getView(), &WorkView::addBook, this, &WorkController::addedBook);
+    connect(getView(), &WorkView::itemChanged, this, &WorkController::handleItemChanged);
+    connect(getView(), &WorkView::changeYear, this, &WorkController::handleYearChanged);
+    connect(getView(), &WorkView::changeBookQuantity, this, &WorkController::handleBookQuantityChanged);
+    connect(getView(), &WorkView::removeBook, this, &WorkController::removeBook);
+    connect(getView(), &WorkView::addBook, this, &WorkController::addBook);
 
     //Chart buttons
     connect(getView(), &WorkView::getLines, [this]{showChart(ChartRequest::Lines);});
@@ -53,35 +53,33 @@ WorkModel *WorkController::getModel() const {
     return static_cast<WorkModel *>(model);
 }
 
-void WorkController::itemChanged(unsigned int row, unsigned int column, const QString &data) {
+void WorkController::handleItemChanged(unsigned int row, unsigned int column, const QString &data) {
     if (getModel()->getLibrary().size() <= 0) return;
     auto book = getModel()->getLibrary()[row];
     if (column == 0) book->setTitle(data);
     if (column == 1) book->setAutor(data);
 }
 
-void WorkController::changedYear(unsigned int row, int year) {
+void WorkController::handleYearChanged(unsigned int row, int year) const {
     getModel()->getLibrary()[row]->setPubYear(year);
 }
 
-void WorkController::changedBookQuantity(unsigned int row, int quantity) {
+void WorkController::handleBookQuantityChanged(unsigned int row, int quantity) {
     getModel()->getLibrary()[row]->setQuantity(quantity);
 }
 
-void WorkController::removedBook(unsigned int row) {
+void WorkController::removeBook(unsigned int row) {
     delete getModel()->getLibrary()[row];
     getModel()->getLibrary().erase(getModel()->getLibrary().begin() + row);
+    emit modelChanged();
+
     getView()->removeRowBooksTable(row);
 }
 
 
-void WorkController::addedBook() {
-    //TODO: non vengono aggiunti correttamente i libri
-
-    auto prova = getModel()->getLibrary();
-
-
+void WorkController::addBook() {
     getModel()->getLibrary().push_back(new Book());
+    emit modelChanged();
     getView()->addRowBooksTable({});
 }
 
@@ -113,7 +111,7 @@ void WorkController::openFile() {
     }
 }
 
-bool WorkController::askSavePath() {
+bool WorkController::askSavePath() const {
     auto save = QFileDialog::getSaveFileName(nullptr,
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
@@ -122,7 +120,7 @@ bool WorkController::askSavePath() {
     return true;
 }
 
-bool WorkController::askOpenPath() {
+bool WorkController::askOpenPath() const {
     auto save = QFileDialog::getOpenFileName(nullptr,
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
@@ -131,7 +129,7 @@ bool WorkController::askOpenPath() {
     return true;
 }
 
-void WorkController::closeFile() {
+void WorkController::closeFile() const {
     getView()->clearBooksTable();
 }
 
