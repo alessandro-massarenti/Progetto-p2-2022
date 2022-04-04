@@ -5,6 +5,7 @@
 #include "Views/WorkView.h"
 #include "Views/WorkWindow.h"
 #include "Models/WorkModel.h"
+#include "Controllers/ChartController.h"
 
 //TODO:define
 class WorkController : public Controller{
@@ -29,17 +30,16 @@ public slots:
     void openFile();
     void closeFile();
 
-    void barChartClicked();
-    void pieChartClicked();
-    void lineChartClicked();
-
-
     void updateView() const;
 
 private:
+    enum class ChartRequest { Bars,Pie,Lines };
     bool askSavePath();
     bool askOpenPath();
+    void showChart(ChartRequest cr);
+    void connectToView();
+
     WorkWindow* workWindow;
 
-    void connectToView() const;
+
 };

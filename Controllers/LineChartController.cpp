@@ -3,7 +3,6 @@
 
 LineChartController::LineChartController(LineChartView *v, WorkModel *m, Controller *p) :
         ChartController(v, m, p) {
-    prepareData();
 }
 
 LineChartView *LineChartController::getView() const {

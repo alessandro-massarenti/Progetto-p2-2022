@@ -4,7 +4,6 @@
 
 BarChartController::BarChartController(BarChartView *v, WorkModel *m, Controller *p) :
         ChartController(v, m, p) {
-    prepareData();
 }
 
 void BarChartController::prepareData() const {
@@ -17,20 +16,20 @@ BarChartView *BarChartController::getView() const {
 }
 
 QList<int> BarChartController::convertData() const {
-    //TODO:Poco efficiente, andrebbe resa più efficiente
+    //TODO:Controllarne l'efficienza
 
     QList<QString> authors = getModel()->getAuthors();
     QList<int> publishedCopies;
 
     auto library = getModel()->getLibrary();
 
-    for (const auto & author : authors) {
+    for (const auto &author: authors) {
         int count = 0;
         for (auto it2 = library.begin(); it2 < library.end(); ++it2) {
             if ((*it2)->getAuthor() == author) {
                 count++;
                 it2 = library.erase(it2);
-                it2 --;
+                it2--;
             }
         }
         publishedCopies.push_back(count);

@@ -9,8 +9,10 @@ class ChartController : public Controller{
 public:
     explicit ChartController(ChartView *v, WorkModel *m , Controller *p = nullptr);
 
-    /**
-     * @brief Le chart mostreranno sempre dei grafici relativi al workModel*/
     WorkModel *getModel() const final;
+
+    void showView() const override;
+
+protected:
     virtual void prepareData() const = 0;
 };

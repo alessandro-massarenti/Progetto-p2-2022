@@ -6,3 +6,8 @@ ChartController::ChartController(ChartView *v, WorkModel *m, Controller *p):
 WorkModel *ChartController::getModel() const {
     return static_cast<WorkModel *>(model);
 }
+
+void ChartController::showView() const {
+    prepareData();
+    Controller::showView();
+}
