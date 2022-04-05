@@ -26,8 +26,6 @@ SOURCES += \
     Views/*.cpp \
     Services/*.cpp
 
-
-
 HEADERS += \
     Controllers/*.h \
     Models/*.h \

@@ -7,8 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    auto workView = new WorkView();
-    auto workController = new WorkController(workView);
+    auto workController = new WorkController(new WorkView());
     workController->showView();
 
     return QApplication::exec();

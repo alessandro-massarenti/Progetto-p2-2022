@@ -72,15 +72,12 @@ void WorkController::removeBook(unsigned int row) {
     delete getModel()->getLibrary()[row];
     getModel()->getLibrary().erase(getModel()->getLibrary().begin() + row);
     emit modelChanged();
-
-    getView()->removeRowBooksTable(row);
 }
 
 
 void WorkController::addBook() {
     getModel()->getLibrary().push_back(new Book());
     emit modelChanged();
-    getView()->addRowBooksTable({});
 }
 
 void WorkController::saveFile() {
@@ -94,12 +91,14 @@ void WorkController::saveFile() {
 }
 
 void WorkController::updateView() const {
+    qDebug() << "hello";
     getView()->clearBooksTable();
     auto library = getModel()->getLibrary();
-
+    qDebug() << "yoh";
     for (auto book: library) {
         getView()->addRowBooksTable(*book);
     }
+    qDebug() << "bella";
 }
 
 void WorkController::openFile() {
