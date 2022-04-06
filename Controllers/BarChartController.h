@@ -10,8 +10,10 @@ public:
 
     //Implementazioni
     BarChartView *getView() const override;
+
+protected:
     void prepareData() const override;
 
-    //Metodi specifici della classe
-
+private:
+    QList<int> convertData() const;
 };

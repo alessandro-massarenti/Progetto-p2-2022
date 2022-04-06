@@ -13,7 +13,7 @@
 
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
-Controller(v,m,p), workWindow(new WorkWindow()){
+        Controller(v, m, p), workWindow(new WorkWindow()) {
 
     //Creao la Record Table
     getView()->createBooksTable();
@@ -25,145 +25,156 @@ Controller(v,m,p), workWindow(new WorkWindow()){
     workWindow->show();
 }
 
-void WorkController::connectToView() const {
+void WorkController::connectToView() {
+    //Toolbar buttons
     connect(workWindow, &WorkWindow::saveFile, this, &WorkController::saveFile);
     connect(workWindow, &WorkWindow::openFile, this, &WorkController::openFile);
-    connect(getView(), &WorkView::itemChanged, this, &WorkController::itemChanged);
-    connect(getView(), &WorkView::changeYear, this, &WorkController::changedYear);
-    connect(getView(), &WorkView::changeBookQuantity, this, &WorkController::changedBookQuantity);
-    connect(getView(), &WorkView::removeBook, this, &WorkController::removedBook);
-    connect(getView(), &WorkView::addBook, this, &WorkController::addedBook);
+    connect(workWindow, &WorkWindow::closeFile, this, &WorkController::closeFile);
+    connect(workWindow, &WorkWindow::newFile, this, &WorkController::newFile);
+
+    //BooksTable signals
+    connect(getView(), &WorkView::itemChanged, this, &WorkController::handleItemChanged);
+    connect(getView(), &WorkView::changeYear, this, &WorkController::handleYearChanged);
+    connect(getView(), &WorkView::changeBookQuantity, this, &WorkController::handleBookQuantityChanged);
+    connect(getView(), &WorkView::removeBook, this, &WorkController::removeBook);
+
+    //book button
+    connect(getView(), &WorkView::addBook, this, &WorkController::addBook);
 
     //Chart buttons
-    connect(getView(),&WorkView::getLines, this,&WorkController::lineChartClicked);
-    connect(getView(),&WorkView::getBars, this,&WorkController::barChartClicked);
-    connect(getView(),&WorkView::getPie, this,&WorkController::pieChartClicked);
+    connect(getView(), &WorkView::getLines, [this] { showChart(ChartRequest::Lines); });
+    connect(getView(), &WorkView::getBars, [this] { showChart(ChartRequest::Bars); });
+    connect(getView(), &WorkView::getPie, [this] { showChart(ChartRequest::Pie); });
 
-    connect(this,&WorkController::modelChanged, this,&WorkController::updateView);
+    connect(this, &WorkController::modelChanged, this, &WorkController::updateView);
 }
 
 
 WorkView *WorkController::getView() const {
     //Poiché il work controller accetta solo workView sono sicuro con lo static cast
-    return static_cast<WorkView*>(view);
+    return static_cast<WorkView *>(view);
 }
 
 WorkModel *WorkController::getModel() const {
     //Poiché il work controller accetta solo workModel sono sicuro con lo static cast
-    return static_cast<WorkModel*>(model);
+    return static_cast<WorkModel *>(model);
 }
 
-void WorkController::itemChanged(unsigned int row, unsigned int column, const QString &data) {
-    if(getModel()->getLibrary().size() <= 0) return;
+void WorkController::handleItemChanged(unsigned int row, unsigned int column, const QString &data) {
+    if (getModel()->getLibrary().size() <= 0) return;
     auto book = getModel()->getLibrary()[row];
-    if(column == 0) book->setTitle(data);
-    if(column == 1) book->setAutor(data);
+    if (column == 0) book->setTitle(data);
+    if (column == 1) book->setAutor(data);
 }
 
-void WorkController::changedYear(unsigned int row, int year) {
+void WorkController::handleYearChanged(unsigned int row, int year) const {
     getModel()->getLibrary()[row]->setPubYear(year);
+    emit modelChanged();
 }
 
-void WorkController::changedBookQuantity(unsigned int row, int quantity) {
+void WorkController::handleBookQuantityChanged(unsigned int row, int quantity) {
     getModel()->getLibrary()[row]->setQuantity(quantity);
 }
 
-void WorkController::removedBook(unsigned int row) {
+void WorkController::removeBook(unsigned int row) {
     delete getModel()->getLibrary()[row];
     getModel()->getLibrary().erase(getModel()->getLibrary().begin() + row);
-    getView()->removeRowBooksTable(row);
+    emit modelChanged();
 }
 
 
-void WorkController::addedBook() {
-    //TODO: non vengono aggiunti correttamente i libri
-
-    auto prova = getModel()->getLibrary();
-
-
+void WorkController::addBook() {
     getModel()->getLibrary().push_back(new Book());
-    getView()->addRowBooksTable({});
+    emit modelChanged();
 }
 
 void WorkController::saveFile() {
-    bool filepathPresent = false;
-    if(getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
+    bool filepathPresent(false);
+
+    if (getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
-    if(filepathPresent) {
+    if (filepathPresent) {
         JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
                                 getModel()->getSavepath());
     }
 }
 
-void WorkController::updateView() const {
-    getView()->clearBooksTable();
-    auto library = getModel()->getLibrary();
-
-    for(auto book : library){
-        getView()->addRowBooksTable(*book);
-    }
-}
-
 void WorkController::openFile() {
-    bool filepathPresent = false;
+    //Prova a chiudere il file
+    if (!closeFile()) return;
+
+    //Se il file è stato chiuso allora prova a domandare da dove prendere i dati
+    bool filepathPresent(false);
     filepathPresent = askOpenPath();
-    if(filepathPresent) {
+
+    //Se è stato scelto un path valido il modello viene popolato con i dati
+    if (filepathPresent) {
         getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
         emit modelChanged();
     }
 }
 
-bool WorkController::askSavePath() {
+bool WorkController::closeFile() const {
+
+    getView()->clearBooksTable();
+    getModel()->clear();
+}
+
+void WorkController::newFile() {
+    closeFile();
+    addBook();
+}
+
+void WorkController::updateView() const {
+
+    //TODO: Provare ad aggiungere un po' più di logica
+    getView()->clearBooksTable();
+    auto library = getModel()->getLibrary();
+    for (auto book: library) {
+        getView()->addRowBooksTable(*book);
+    }
+}
+
+bool WorkController::askSavePath() const {
     auto save = QFileDialog::getSaveFileName(nullptr,
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
-    if(save.isNull()) return false;
+    if (save.isNull()) return false;
     getModel()->setSavePath(save);
     return true;
 }
 
-bool WorkController::askOpenPath() {
+bool WorkController::askOpenPath() const {
     auto save = QFileDialog::getOpenFileName(nullptr,
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
-    if(save.isNull()) return false;
+    if (save.isNull()) return false;
     getModel()->setSavePath(save);
     return true;
 }
 
-void WorkController::closeFile() {
-    getView()->clearBooksTable();
-}
 
-void WorkController::barChartClicked() {
-    if(getModel()->getLibrary().empty()){
+void WorkController::showChart(ChartRequest cr) {
+    if (getModel()->getLibrary().empty()) {
         //TODO:view->showWarning
         return;
     }
+    ChartController *chartController;
 
-    auto barChartView = new BarChartView(view);
-    auto barChartController = new BarChartController(barChartView, getModel(), this);
-    barChartController->showView();
-}
-
-void WorkController::pieChartClicked() {
-    if(getModel()->getLibrary().empty()){
-        //TODO:view->showWarning
-        return;
+    switch (cr) {
+        case ChartRequest::Bars: {
+            chartController = new BarChartController(new BarChartView(view), getModel(), this);
+            break;
+        }
+        case ChartRequest::Pie: {
+            chartController = new PieChartController(new PieChartView(getView()), getModel(), this);
+            break;
+        }
+        case ChartRequest::Lines: {
+            chartController = new LineChartController(new LineChartView(view), getModel(), this);
+            break;
+        }
     }
 
-    auto pieChartView = new PieChartView(getView());
-    auto pieChartController = new PieChartController(pieChartView, getModel(), this);
-    pieChartController->showView();
-}
-
-void WorkController::lineChartClicked(){
-    if(getModel()->getLibrary().empty()){
-        //TODO:view->showWarning
-        return;
-    }
-
-    auto lineChartView = new LineChartView(view);
-    auto lineChartController = new LineChartController(lineChartView, getModel(), this);
-    lineChartController->showView();
+    chartController->showView();
 }

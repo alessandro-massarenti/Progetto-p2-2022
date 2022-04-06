@@ -1,7 +1,7 @@
 #include "Controller.h"
 
 Controller::~Controller() {
-    for(auto child: children())
+    for (auto child: children())
         child->deleteLater();
     view->deleteLater();
     delete model;
@@ -16,5 +16,4 @@ void Controller::hideView() const {
 }
 
 Controller::Controller(View *v, Model *m, Controller *p) :
-        QObject(p),view(v),model(m){
-}
+        QObject(p), view(v), model(m) {}

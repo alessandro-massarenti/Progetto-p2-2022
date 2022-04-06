@@ -2,7 +2,6 @@
 
 PieChartController::PieChartController(PieChartView *v, WorkModel *m, Controller *p) :
         ChartController(v, m, p) {
-    prepareData();
 }
 
 void PieChartController::prepareData() const {

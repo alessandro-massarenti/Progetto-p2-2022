@@ -5,37 +5,38 @@
 
 BarChartController::BarChartController(BarChartView *v, WorkModel *m, Controller *p) :
         ChartController(v, m, p) {
-    prepareData();
 }
 
 void BarChartController::prepareData() const {
+    getView()->setBottomLabels(getModel()->getAuthors());
+    getView()->insertDataGroup("Total", convertData());
+}
 
-    //TODO:Poco efficiente, andrebbe resa più efficiente
+BarChartView *BarChartController::getView() const {
+    return static_cast<BarChartView *>(view);
+}
+
+QList<int> BarChartController::convertData() const {
+    //TODO:Controllarne l'efficienza
+
     QList<QString> authors = getModel()->getAuthors();
     QList<int> publishedCopies;
 
     auto library = getModel()->getLibrary();
 
-    for (auto it = authors.begin(); it < authors.end(); ++it) {
-
+    for (const auto &author: authors) {
         int count = 0;
         for (auto it2 = library.begin(); it2 < library.end(); ++it2) {
-            if ((*it2)->getAuthor() == *it) {
+            if ((*it2)->getAuthor() == author) {
                 count++;
                 it2 = library.erase(it2);
-                it2 --;
+                it2--;
             }
         }
         publishedCopies.push_back(count);
     }
 
-    getView()->setBottomLabels(authors);
-
-    getView()->insertDataGroup("Total", publishedCopies);
-}
-
-BarChartView *BarChartController::getView() const {
-    return static_cast<BarChartView *>(view);
+    return publishedCopies;
 }
 
 
