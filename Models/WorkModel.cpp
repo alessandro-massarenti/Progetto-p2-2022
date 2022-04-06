@@ -35,4 +35,7 @@ int WorkModel::getSmallestYear() {
     return smallestYear;
 }
 
-void WorkModel::clear() { while (library.count()) delete library.takeLast(); }
+void WorkModel::clear() {
+    while (library.count()) delete library.takeLast();
+    //TODO:Forse dovrebbe anche pulire il filepath
+}

@@ -25,12 +25,12 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
     workWindow->show();
 }
 
-void WorkController::connectToView(){
+void WorkController::connectToView() {
     //Toolbar buttons
     connect(workWindow, &WorkWindow::saveFile, this, &WorkController::saveFile);
     connect(workWindow, &WorkWindow::openFile, this, &WorkController::openFile);
-    connect(workWindow,&WorkWindow::closeFile, this,&WorkController::closeFile);
-    connect(workWindow,&WorkWindow::newFile, this,&WorkController::newFile);
+    connect(workWindow, &WorkWindow::closeFile, this, &WorkController::closeFile);
+    connect(workWindow, &WorkWindow::newFile, this, &WorkController::newFile);
 
     //BooksTable signals
     connect(getView(), &WorkView::itemChanged, this, &WorkController::handleItemChanged);
@@ -42,9 +42,9 @@ void WorkController::connectToView(){
     connect(getView(), &WorkView::addBook, this, &WorkController::addBook);
 
     //Chart buttons
-    connect(getView(), &WorkView::getLines, [this]{showChart(ChartRequest::Lines);});
-    connect(getView(), &WorkView::getBars, [this]{showChart(ChartRequest::Bars);});
-    connect(getView(), &WorkView::getPie, [this]{showChart(ChartRequest::Pie);});
+    connect(getView(), &WorkView::getLines, [this] { showChart(ChartRequest::Lines); });
+    connect(getView(), &WorkView::getBars, [this] { showChart(ChartRequest::Bars); });
+    connect(getView(), &WorkView::getPie, [this] { showChart(ChartRequest::Pie); });
 
     connect(this, &WorkController::modelChanged, this, &WorkController::updateView);
 }
@@ -101,7 +101,7 @@ void WorkController::saveFile() {
 
 void WorkController::openFile() {
     //Prova a chiudere il file
-    if(!closeFile()) return;
+    if (!closeFile()) return;
 
     //Se il file è stato chiuso allora prova a domandare da dove prendere i dati
     bool filepathPresent(false);
@@ -115,6 +115,7 @@ void WorkController::openFile() {
 }
 
 bool WorkController::closeFile() const {
+
     getView()->clearBooksTable();
     getModel()->clear();
 }
@@ -153,14 +154,12 @@ bool WorkController::askOpenPath() const {
 }
 
 
-
-
 void WorkController::showChart(ChartRequest cr) {
     if (getModel()->getLibrary().empty()) {
         //TODO:view->showWarning
         return;
     }
-    ChartController* chartController;
+    ChartController *chartController;
 
     switch (cr) {
         case ChartRequest::Bars: {
