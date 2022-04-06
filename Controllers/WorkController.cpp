@@ -26,12 +26,19 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 }
 
 void WorkController::connectToView(){
+    //Toolbar buttons
     connect(workWindow, &WorkWindow::saveFile, this, &WorkController::saveFile);
     connect(workWindow, &WorkWindow::openFile, this, &WorkController::openFile);
+    connect(workWindow,&WorkWindow::closeFile, this,&WorkController::closeFile);
+    connect(workWindow,&WorkWindow::newFile, this,&WorkController::newFile);
+
+    //BooksTable signals
     connect(getView(), &WorkView::itemChanged, this, &WorkController::handleItemChanged);
     connect(getView(), &WorkView::changeYear, this, &WorkController::handleYearChanged);
     connect(getView(), &WorkView::changeBookQuantity, this, &WorkController::handleBookQuantityChanged);
     connect(getView(), &WorkView::removeBook, this, &WorkController::removeBook);
+
+    //book button
     connect(getView(), &WorkView::addBook, this, &WorkController::addBook);
 
     //Chart buttons
@@ -62,6 +69,7 @@ void WorkController::handleItemChanged(unsigned int row, unsigned int column, co
 
 void WorkController::handleYearChanged(unsigned int row, int year) const {
     getModel()->getLibrary()[row]->setPubYear(year);
+    emit modelChanged();
 }
 
 void WorkController::handleBookQuantityChanged(unsigned int row, int quantity) {
@@ -81,7 +89,8 @@ void WorkController::addBook() {
 }
 
 void WorkController::saveFile() {
-    bool filepathPresent = false;
+    bool filepathPresent(false);
+
     if (getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if (filepathPresent) {
@@ -90,23 +99,38 @@ void WorkController::saveFile() {
     }
 }
 
-void WorkController::updateView() const {
-    qDebug() << "hello";
-    getView()->clearBooksTable();
-    auto library = getModel()->getLibrary();
-    qDebug() << "yoh";
-    for (auto book: library) {
-        getView()->addRowBooksTable(*book);
-    }
-    qDebug() << "bella";
-}
-
 void WorkController::openFile() {
-    bool filepathPresent = false;
+    //Prova a chiudere il file
+    if(!closeFile()) return;
+
+    //Se il file è stato chiuso allora prova a domandare da dove prendere i dati
+    bool filepathPresent(false);
     filepathPresent = askOpenPath();
+
+    //Se è stato scelto un path valido il modello viene popolato con i dati
     if (filepathPresent) {
         getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
         emit modelChanged();
+    }
+}
+
+bool WorkController::closeFile() const {
+    getView()->clearBooksTable();
+    getModel()->clear();
+}
+
+void WorkController::newFile() {
+    closeFile();
+    addBook();
+}
+
+void WorkController::updateView() const {
+
+    //TODO: Provare ad aggiungere un po' più di logica
+    getView()->clearBooksTable();
+    auto library = getModel()->getLibrary();
+    for (auto book: library) {
+        getView()->addRowBooksTable(*book);
     }
 }
 
@@ -128,9 +152,8 @@ bool WorkController::askOpenPath() const {
     return true;
 }
 
-void WorkController::closeFile() const {
-    getView()->clearBooksTable();
-}
+
+
 
 void WorkController::showChart(ChartRequest cr) {
     if (getModel()->getLibrary().empty()) {

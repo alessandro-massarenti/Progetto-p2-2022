@@ -10,18 +10,25 @@
  * - representation of the work model
  * - knows where it is saved on disk or if is not saved on it
  * */
-class WorkModel : public Model{
+class WorkModel : public Model {
 public:
-    explicit WorkModel(const QString& path = "");
+    explicit WorkModel(const QString &path = "");
 
     /**@brief Funzione che ritorna la libreria di libri*/
-    QVector<Book*>& getLibrary();
-    const QString& getSavepath() const;
-    void setSavePath(const QString& savepath);
+    QVector<Book *> &getLibrary();
+
+    const QString &getSavepath() const;
+
+    void setSavePath(const QString &savepath);
+
     QList<QString> getAuthors();
+
     int getSmallestYear();
+
+    /** @brief pulisce il modello svuotando la libreria */
+    void clear();
 
 private:
     QString filepath;
-    QVector<Book*> library;
+    QVector<Book *> library;
 };

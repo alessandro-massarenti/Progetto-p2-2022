@@ -18,7 +18,7 @@ public:
 
 signals:
     /**@brief Signals that the model has changed*/
-    void modelChanged();
+    void modelChanged() const;
 
 public slots:
     //library table related methods
@@ -48,7 +48,10 @@ public slots:
     //File related methods
     void saveFile();
     void openFile();
-    void closeFile() const;
+    /**@brief se il file è già stato salvato pulisce il modello,
+     * altrimenti chiede di salvarlo*/
+    bool closeFile() const;
+    void newFile();
 
     //View related methods
     void updateView() const;
@@ -56,11 +59,15 @@ public slots:
 private:
     enum class ChartRequest { Bars,Pie,Lines };
 
+    //View generating helper methods
     bool askSavePath() const;
     bool askOpenPath() const;
     void showChart(ChartRequest cr);
+
+    //Initialization helper methods
     void connectToView();
 
+    //Data fields
     WorkWindow* workWindow;
 
 

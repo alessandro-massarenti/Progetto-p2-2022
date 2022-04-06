@@ -34,3 +34,5 @@ int WorkModel::getSmallestYear() {
         if (book->getPubYear() < smallestYear) smallestYear = book->getPubYear();
     return smallestYear;
 }
+
+void WorkModel::clear() { while (library.count()) delete library.takeLast(); }
