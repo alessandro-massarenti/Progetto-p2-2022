@@ -13,7 +13,7 @@
 
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
-        Controller(v, m, p), workWindow(new WorkWindow()) {
+        Controller(v, m, p), workWindow(new WorkWindow()), modelModified(false) {
 
     //Creao la Record Table
     getView()->createBooksTable();
@@ -47,6 +47,7 @@ void WorkController::connectToView() {
     connect(getView(), &WorkView::getPie, [this] { showChart(ChartRequest::Pie); });
 
     connect(this, &WorkController::modelChanged, this, &WorkController::updateView);
+    connect(this, &WorkController::modelChanged, [this] { modelModified = true; });
 }
 
 
@@ -74,6 +75,7 @@ void WorkController::handleYearChanged(unsigned int row, int year) const {
 
 void WorkController::handleBookQuantityChanged(unsigned int row, int quantity) {
     getModel()->getLibrary()[row]->setQuantity(quantity);
+    emit modelChanged();
 }
 
 void WorkController::removeBook(unsigned int row) {
@@ -88,7 +90,10 @@ void WorkController::addBook() {
     emit modelChanged();
 }
 
-void WorkController::saveFile() {
+bool WorkController::saveFile() {
+
+    if (!maybeSaved()) return true;
+
     bool filepathPresent(false);
 
     if (getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
@@ -96,7 +101,10 @@ void WorkController::saveFile() {
     if (filepathPresent) {
         JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
                                 getModel()->getSavepath());
+        modelModified = false;
+        return true;
     }
+    return false;
 }
 
 void WorkController::openFile() {
@@ -114,19 +122,27 @@ void WorkController::openFile() {
     }
 }
 
-bool WorkController::closeFile() const {
+bool WorkController::closeFile() {
 
-    getView()->clearBooksTable();
-    getModel()->clear();
+    bool canBeClosed(false);
+
+    !maybeSaved() ? canBeClosed = true : canBeClosed = askSaveDecision();
+
+    if (canBeClosed) {
+        getView()->clearBooksTable();
+        getModel()->clear();
+        return true;
+    }
+    return false;
 }
 
 void WorkController::newFile() {
-    closeFile();
+    if(!closeFile()) return;
+
     addBook();
 }
 
 void WorkController::updateView() const {
-
     //TODO: Provare ad aggiungere un po' più di logica
     getView()->clearBooksTable();
     auto library = getModel()->getLibrary();
@@ -153,6 +169,28 @@ bool WorkController::askOpenPath() const {
     return true;
 }
 
+bool WorkController::askSaveDecision() {
+    QMessageBox::StandardButton resBtn = QMessageBox::question(getView(), "File maybe saved",
+                                                               tr("Are you sure?\n"),
+                                                               QMessageBox::Cancel | QMessageBox::Discard |
+                                                               QMessageBox::Save,
+                                                               QMessageBox::Save);
+
+    switch (resBtn) {
+        case QMessageBox::Save: {
+            return saveFile();
+        }
+        case QMessageBox::Cancel: {
+            return false;
+        }
+        case QMessageBox::Discard: {
+            return true;
+        }
+        default: {
+            break;
+        }
+    }
+}
 
 void WorkController::showChart(ChartRequest cr) {
     if (getModel()->getLibrary().empty()) {
@@ -174,7 +212,14 @@ void WorkController::showChart(ChartRequest cr) {
             chartController = new LineChartController(new LineChartView(view), getModel(), this);
             break;
         }
+        default: {
+            break;
+        }
     }
 
     chartController->showView();
+}
+
+bool WorkController::maybeSaved() const {
+    return modelModified;
 }

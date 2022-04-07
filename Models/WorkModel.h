@@ -25,7 +25,7 @@ public:
 
     int getSmallestYear();
 
-    /** @brief pulisce il modello svuotando la libreria */
+    /** @brief pulisce il modello svuotando la libreria e resettando il savepath*/
     void clear();
 
 private:

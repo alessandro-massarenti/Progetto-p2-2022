@@ -13,11 +13,13 @@ Q_OBJECT
 public:
     explicit WorkController(WorkView *view, WorkModel *model = new WorkModel(), Controller *parent = nullptr);
 
-    ~WorkController() override;
+    ~WorkController() override = default;
 
     WorkView *getView() const override;
 
     WorkModel *getModel() const override;
+
+    bool maybeSaved() const;
 
 signals:
 
@@ -25,7 +27,7 @@ signals:
     void modelChanged() const;
 
 public slots:
-    //library table related methods
+//library table related slots
     /**@brief Handles changes of items in the library table*/
     void handleItemChanged(unsigned int row, unsigned int column, const QString &data);
 
@@ -49,18 +51,21 @@ public slots:
      * emits "modelChanged()"*/
     void addBook();
 
-    //File related methods
-    void saveFile();
+//File related slots
+    /**@return Ritorna true se il file è aggiornato rispetto al modello.
+     * False se non ha salvato
+     * */
+    bool saveFile();
 
     void openFile();
 
     /**@brief se il file è già stato salvato pulisce il modello,
      * altrimenti chiede di salvarlo*/
-    bool closeFile() const;
+    bool closeFile();
 
     void newFile();
 
-    //View related methods
+//View related methods
     void updateView() const;
 
 private:
@@ -73,6 +78,8 @@ private:
 
     bool askOpenPath() const;
 
+    bool askSaveDecision();
+
     void showChart(ChartRequest cr);
 
     //Initialization helper methods
@@ -81,5 +88,6 @@ private:
     //Data fields
     WorkWindow *workWindow;
 
+    bool modelModified;
 
 };
