@@ -45,14 +45,6 @@ public:
      */
     virtual void showView() const;
 
-    /**
-     * @brief Nasconde la View
-     */
-    virtual void hideView() const;
-
-private:
-    void connectAll() const;
-
 protected:
     View* view;
     Model* model;

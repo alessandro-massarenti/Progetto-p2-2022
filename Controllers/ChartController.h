@@ -11,6 +11,7 @@ public:
 
     WorkModel *getModel() const final;
 
+    /**@brief estende showView facendo preparare i dati(Ovvero chiama prepareData()) prima di mostrarli nella view*/
     void showView() const override;
 
 protected:
