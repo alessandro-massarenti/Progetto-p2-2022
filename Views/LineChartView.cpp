@@ -29,11 +29,10 @@ void LineChartView::insertLine(const QString &title, const QList<int>& years, QL
     scatterSerie->setPointLabelsVisible(true);
     scatterSerie->setPointLabelsClipping(false);
     scatterSerie->setPointLabelsFormat("Anno: @xPoint, Tot pub:@yPoint");
-    scatterSerie->setMarkerSize(30);
+    scatterSerie->setMarkerSize(20);
     auto font = scatterSerie->pointLabelsFont();
 
     font.bold();
-    font.setPointSize(25);
 
     scatterSerie->setPointLabelsFont(font);
 

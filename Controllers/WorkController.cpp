@@ -137,7 +137,7 @@ bool WorkController::closeFile() {
 }
 
 void WorkController::newFile() {
-    if(!closeFile()) return;
+    if (!closeFile()) return;
 
     addBook();
 }
@@ -171,7 +171,7 @@ bool WorkController::askOpenPath() const {
 
 bool WorkController::askSaveDecision() {
     QMessageBox::StandardButton resBtn = QMessageBox::question(getView(), "File maybe saved",
-                                                               tr("Are you sure?\n"),
+                                                               tr("Stai chiudendo il workfile e alcune modifiche non sono state salvate, cosa vuoi fare?\n"),
                                                                QMessageBox::Cancel | QMessageBox::Discard |
                                                                QMessageBox::Save,
                                                                QMessageBox::Save);
