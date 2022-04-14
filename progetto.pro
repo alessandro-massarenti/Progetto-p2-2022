@@ -36,3 +36,4 @@ HEADERS += \
 RESOURCES = resources.qrc
 
 ICON = AppIcon.ico
+TARGET = BookAnalizer
