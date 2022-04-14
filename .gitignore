@@ -2,9 +2,9 @@
 *.stash
 
 Makefile
-progetto.app
 progetto
 *.o
 qrc_*
 moc_*
 *.tmp
+*.app

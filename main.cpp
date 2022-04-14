@@ -10,5 +10,7 @@ int main(int argc, char *argv[])
     auto workController = new WorkController(new WorkView());
     workController->showView();
 
+    QCoreApplication::setApplicationName("BookAnalyzer");
+
     return QApplication::exec();
 }
