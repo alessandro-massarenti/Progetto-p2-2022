@@ -31,7 +31,8 @@ HEADERS += \
     Controllers/*.h \
     Models/*.h \
     Views/*.h \
-    Services/*.h
+    Services/*.h \
+    Interfaces/*.h
 
 RESOURCES = resources.qrc
 

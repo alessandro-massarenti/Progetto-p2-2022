@@ -21,7 +21,7 @@ public:
 
     void removeRowBooksTable(unsigned int row);
 
-    void clearBooksTable();
+    void clear() override;
 
 signals:
 

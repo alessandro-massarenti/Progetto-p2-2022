@@ -7,7 +7,7 @@ Controller::~Controller() {
     delete model;
 }
 
-void Controller::showView() const {
+void Controller::activate() const {
     view->show();
 }
 

@@ -110,6 +110,6 @@ void WorkView::removeRowBooksTable(unsigned int row) {
     booksTable->removeRow(row);
 }
 
-void WorkView::clearBooksTable() {
-    booksTable->setRowCount(0);
+void WorkView::clear() {
+    booksTable->clear();
 }

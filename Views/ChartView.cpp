@@ -8,6 +8,12 @@ ChartView::~ChartView() {
     chart->deleteLater();
 }
 
+void ChartView::clear() {
+    chart->deleteLater();
+    chart = new QChart();
+}
+
+
 void ChartView::setupChartView() {
     auto mainLayout = new QHBoxLayout;
 

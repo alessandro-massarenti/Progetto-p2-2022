@@ -130,7 +130,7 @@ bool WorkController::closeFile() {
     !maybeSaved() ? canBeClosed = true : canBeClosed = askSaveDecision();
 
     if (canBeClosed) {
-        getView()->clearBooksTable();
+        getView()->clear();
         getModel()->clear();
 
         modelModified = false;
@@ -148,7 +148,7 @@ void WorkController::newFile() {
 
 void WorkController::updateView() const {
     //TODO: Provare ad aggiungere un po' più di logica
-    getView()->clearBooksTable();
+    getView()->clear();
     auto library = getModel()->getLibrary();
     for (auto book: library) {
         getView()->addRowBooksTable(*book);
@@ -207,7 +207,7 @@ void WorkController::showChart(ChartRequest cr) {
 
     switch (cr) {
         case ChartRequest::Bars: {
-            chartController = new BarChartController(new BarChartView(view), getModel(), this);
+            chartController = new BarChartController(new BarChartView(getView()), getModel(), this);
             break;
         }
         case ChartRequest::Pie: {
@@ -215,15 +215,13 @@ void WorkController::showChart(ChartRequest cr) {
             break;
         }
         case ChartRequest::Lines: {
-            chartController = new LineChartController(new LineChartView(view), getModel(), this);
+            chartController = new LineChartController(new LineChartView(getView()), getModel(), this);
             break;
         }
-        default: {
-            break;
-        }
+        default: break;
     }
 
-    chartController->showView();
+    chartController->activate();
 }
 
 bool WorkController::maybeSaved() const {
