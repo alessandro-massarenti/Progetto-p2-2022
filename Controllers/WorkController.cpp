@@ -118,6 +118,7 @@ void WorkController::openFile() {
     //Se è stato scelto un path valido il modello viene popolato con i dati
     if (filepathPresent) {
         getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
+        modelModified = false;
         emit modelChanged();
     }
 }
@@ -131,6 +132,8 @@ bool WorkController::closeFile() {
     if (canBeClosed) {
         getView()->clearBooksTable();
         getModel()->clear();
+
+        modelModified = false;
         return true;
     }
     return false;
@@ -140,6 +143,7 @@ void WorkController::newFile() {
     if (!closeFile()) return;
 
     addBook();
+    modelModified = false;
 }
 
 void WorkController::updateView() const {
@@ -190,6 +194,8 @@ bool WorkController::askSaveDecision() {
             break;
         }
     }
+
+    return false;
 }
 
 void WorkController::showChart(ChartRequest cr) {
