@@ -13,9 +13,9 @@
 
 
 WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
-        Controller(v, m, p), workWindow(new WorkWindow()), modelModified(false) {
+        Controller(v, m, p), workWindow(new WorkWindow()),filepath(""), modelModified(false) {
 
-    //Creao la Record Table
+    //Crea la Record Table
     getView()->createBooksTable();
 
 
@@ -61,8 +61,8 @@ WorkModel *WorkController::getModel() const {
     return static_cast<WorkModel *>(model);
 }
 
-void WorkController::handleItemChanged(unsigned int row, unsigned int column, const QString &data) {
-    if (getModel()->getLibrary().size() <= 0) return;
+void WorkController::handleItemChanged(unsigned int row, unsigned int column, const QString &data) const {
+    if (getModel()->getLibrary().empty()) return;
     auto book = getModel()->getLibrary()[row];
     if (column == 0) book->setTitle(data);
     if (column == 1) book->setAutor(data);
@@ -73,19 +73,19 @@ void WorkController::handleYearChanged(unsigned int row, int year) const {
     emit modelChanged();
 }
 
-void WorkController::handleBookQuantityChanged(unsigned int row, int quantity) {
+void WorkController::handleBookQuantityChanged(unsigned int row, int quantity) const {
     getModel()->getLibrary()[row]->setQuantity(quantity);
     emit modelChanged();
 }
 
-void WorkController::removeBook(unsigned int row) {
+void WorkController::removeBook(unsigned int row) const {
     delete getModel()->getLibrary()[row];
     getModel()->getLibrary().erase(getModel()->getLibrary().begin() + row);
     emit modelChanged();
 }
 
 
-void WorkController::addBook() {
+void WorkController::addBook() const {
     getModel()->getLibrary().push_back(new Book());
     emit modelChanged();
 }
@@ -96,11 +96,11 @@ bool WorkController::saveFile() {
 
     bool filepathPresent(false);
 
-    if (getModel()->getSavepath().isEmpty() || getModel()->getSavepath().isNull()) filepathPresent = askSavePath();
+    if (getSavePath().isEmpty() || getSavePath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if (filepathPresent) {
         JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
-                                getModel()->getSavepath());
+                                getSavePath());
         modelModified = false;
         return true;
     }
@@ -117,7 +117,7 @@ void WorkController::openFile() {
 
     //Se è stato scelto un path valido il modello viene popolato con i dati
     if (filepathPresent) {
-        getModel()->getLibrary() = *JsonHandler::openFrom(getModel()->getSavepath());
+        getModel()->getLibrary() = *JsonHandler::openFrom(getSavePath());
         modelModified = false;
         emit modelChanged();
     }
@@ -155,27 +155,27 @@ void WorkController::updateView() const {
     }
 }
 
-bool WorkController::askSavePath() const {
+bool WorkController::askSavePath(){
     auto save = QFileDialog::getSaveFileName(nullptr,
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
     if (save.isNull()) return false;
-    getModel()->setSavePath(save);
+    setSavePath(save);
     return true;
 }
 
-bool WorkController::askOpenPath() const {
+bool WorkController::askOpenPath() {
     auto save = QFileDialog::getOpenFileName(nullptr,
                                              tr("Save Project"), "",
                                              tr("Json (*.json);;All Files (*)"));
     if (save.isNull()) return false;
-    getModel()->setSavePath(save);
+    setSavePath(save);
     return true;
 }
 
 bool WorkController::askSaveDecision() {
     QMessageBox::StandardButton resBtn = QMessageBox::question(getView(), "File maybe saved",
-                                                               tr("Stai chiudendo il workfile e alcune modifiche non sono state salvate, cosa vuoi fare?\n"),
+                                                               tr("Stai chiudendo il file di lavoro e alcune modifiche non sono state salvate, cosa vuoi fare?\n"),
                                                                QMessageBox::Cancel | QMessageBox::Discard |
                                                                QMessageBox::Save,
                                                                QMessageBox::Save);
@@ -226,4 +226,12 @@ void WorkController::showChart(ChartRequest cr) {
 
 bool WorkController::maybeSaved() const {
     return modelModified;
+}
+
+const QString &WorkController::getSavePath() const {
+    return filepath;
+}
+
+void WorkController::setSavePath(const QString &s) {
+    filepath = s;
 }
