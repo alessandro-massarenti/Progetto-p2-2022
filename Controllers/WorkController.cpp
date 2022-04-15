@@ -134,6 +134,7 @@ bool WorkController::closeFile() {
         getModel()->clear();
 
         modelModified = false;
+        filepath = "";
         return true;
     }
     return false;
