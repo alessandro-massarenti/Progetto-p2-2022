@@ -17,12 +17,11 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
 
     //Crea la Record Table
     getView()->createBooksTable();
-
-
     connectToView();
-
     workWindow->setCentralWidget(getView());
     workWindow->show();
+
+    emit modelChanged();
 }
 
 void WorkController::connectToView() {
@@ -130,8 +129,9 @@ bool WorkController::closeFile() {
     !maybeSaved() ? canBeClosed = true : canBeClosed = askSaveDecision();
 
     if (canBeClosed) {
-        getView()->clear();
         getModel()->clear();
+        emit modelChanged();
+
 
         modelModified = false;
         filepath = "";
@@ -149,11 +149,23 @@ void WorkController::newFile() {
 
 void WorkController::updateView() const {
     //TODO: Provare ad aggiungere un po' più di logica
-    getView()->clear();
     auto library = getModel()->getLibrary();
-    for (auto book: library) {
-        getView()->addRowBooksTable(*book);
+
+    if(library.empty()){
+        getView()->setDisableGraphs();
+        getView()->clear();
+    }else{
+
+        if(library.count() != getView()->BookTableRowCount()) {
+            getView()->clear();
+            for (auto book: library) {
+                getView()->addRowBooksTable(*book);
+            }
+        }
+
+        getView()->setDisableGraphs(false);
     }
+
 }
 
 bool WorkController::askSavePath(){
@@ -200,10 +212,6 @@ bool WorkController::askSaveDecision() {
 }
 
 void WorkController::showChart(ChartRequest cr) {
-    if (getModel()->getLibrary().empty()) {
-        //TODO:view->showWarning
-        return;
-    }
     ChartController *chartController;
 
     switch (cr) {

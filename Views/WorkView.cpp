@@ -23,22 +23,22 @@ void WorkView::makeInsertGUI() {
     //Bottoni
     auto addBookButton = new QPushButton("Aggiungi libro",this);
 
-    auto booksPerAuthor = new QPushButton("Show books per author",this); //Barre
-    auto authors = new QPushButton("Show authors distribution",this); //torta
-    auto yearlyPubblications = new QPushButton("Show yearly pubblications");  //Linee
+    graphButtons.push_back(new QPushButton("Pubblicazioni per autore",this)); //Barre
+    graphButtons.push_back(new QPushButton("Libri per autore in libreria",this)); //torta
+    graphButtons.push_back(new QPushButton("Pubblicazioni negli anni",this));  //Linee
 
     //Connessioni
     connect(addBookButton,&QPushButton::clicked,this,&WorkView::addBook);
 
-    connect(booksPerAuthor,&QPushButton::clicked, this,&WorkView::getBars);
-    connect(authors,&QPushButton::clicked, this,&WorkView::getPie);
-    connect(yearlyPubblications,&QPushButton::clicked, this,&WorkView::getLines);
+    connect(graphButtons.value(0),&QPushButton::clicked, this,&WorkView::getBars);
+    connect(graphButtons.value(1),&QPushButton::clicked, this,&WorkView::getPie);
+    connect(graphButtons.value(2),&QPushButton::clicked, this,&WorkView::getLines);
 
     //Inserimento nel layout
     mainLayout->addWidget(addBookButton, 0, 0, 1, 1);
-    mainLayout->addWidget(booksPerAuthor,0,1,1,1);
-    mainLayout->addWidget(authors,0,2,1,1);
-    mainLayout->addWidget(yearlyPubblications,0,3,1,1);
+    mainLayout->addWidget(graphButtons.value(0),0,1,1,1);
+    mainLayout->addWidget(graphButtons.value(1),0,2,1,1);
+    mainLayout->addWidget(graphButtons.value(2),0,3,1,1);
 }
 
 void WorkView::createBooksTable() const {
@@ -112,4 +112,12 @@ void WorkView::removeRowBooksTable(unsigned int row) {
 
 void WorkView::clear() {
     booksTable->setRowCount(0);
+}
+
+void WorkView::setDisableGraphs(bool disable) {
+    for(auto button : graphButtons) button->setDisabled(disable);
+}
+
+int WorkView::BookTableRowCount() {
+    return booksTable->rowCount();
 }

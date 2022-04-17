@@ -7,6 +7,7 @@
 #include <QGridLayout>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QVector>
 #include "Models/Book.h"
 
 //TODO: define
@@ -20,6 +21,10 @@ public:
     void addRowBooksTable(const Book &book);
 
     void removeRowBooksTable(unsigned int row);
+
+    int BookTableRowCount();
+
+    void setDisableGraphs(bool disable = true);
 
     void clear() override;
 
@@ -51,5 +56,6 @@ protected:
 private:
     QGridLayout *mainLayout;
     QTableWidget *booksTable;
+    QVector<QPushButton*> graphButtons;
 };
 
