@@ -7,9 +7,9 @@
 #include <QGridLayout>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QVector>
 #include "Models/Book.h"
 
-//TODO: define
 class WorkView : public View {
 Q_OBJECT
 public:
@@ -21,7 +21,11 @@ public:
 
     void removeRowBooksTable(unsigned int row);
 
-    void clearBooksTable();
+    int BookTableRowCount();
+
+    void setDisableGraphs(bool disable = true);
+
+    void clear() override;
 
 signals:
 
@@ -51,5 +55,6 @@ protected:
 private:
     QGridLayout *mainLayout;
     QTableWidget *booksTable;
+    QVector<QPushButton*> graphButtons;
 };
 

@@ -7,12 +7,8 @@ Controller::~Controller() {
     delete model;
 }
 
-void Controller::showView() const {
+void Controller::activate() const {
     view->show();
-}
-
-void Controller::hideView() const {
-    view->hide();
 }
 
 Controller::Controller(View *v, Model *m, Controller *p) :

@@ -38,9 +38,9 @@ void LineChartView::insertLine(const QString &title, const QList<int>& years, QL
 
     chart->addSeries(lineSerie);
     chart->addSeries(scatterSerie);
-    chart->createDefaultAxes();
 
-    //TODO:Spostare la gestione della dimensione degli assi in un metodo a parte
+
+    chart->createDefaultAxes();
     chart->axes(Qt::Vertical)[0]->setRange(0, *std::max_element(values.begin(),values.end()) + 1);
     chart->axes(Qt::Horizontal)[0]->setRange(*std::min_element(years.begin(),years.end()) - 30, *std::max_element(years.begin(),years.end()) + 30);
 }

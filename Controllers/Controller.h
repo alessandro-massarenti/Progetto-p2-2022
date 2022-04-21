@@ -31,27 +31,20 @@ public:
      * bisogna ritornare il tipo della schermata collegata.
      * @return View legata al Controller
      */
-    virtual View* getView() const = 0;
+    [[nodiscard]] virtual View* getView() const = 0;
 
     /**
      * @brief Questo metodo va implementato utilizzando la covarianza,
      * bisogna ritornare il tipo della schermata collegata.
      * @return Model legato al Controller, se il modello non c'è ritorna nullptr.
      */
-    virtual Model* getModel() const = 0;
+    [[nodiscard]] virtual Model* getModel() const = 0;
 
     /**
-     * @brief Rende visibile la View legata al Controller
+     * @brief attiva il controller. Nella sua versione base rende visibile la View legata al Controller.
+     * @example Può ad esempio passare dati alla view prima di renderla visibile
      */
-    virtual void showView() const;
-
-    /**
-     * @brief Nasconde la View
-     */
-    virtual void hideView() const;
-
-private:
-    void connectAll() const;
+    virtual void activate() const;
 
 protected:
     View* view;

@@ -7,7 +7,6 @@
 #include "Models/WorkModel.h"
 #include "Controllers/ChartController.h"
 
-//TODO:define
 class WorkController : public Controller {
 Q_OBJECT
 public:
@@ -29,27 +28,27 @@ signals:
 public slots:
 //library table related slots
     /**@brief Handles changes of items in the library table*/
-    void handleItemChanged(unsigned int row, unsigned int column, const QString &data);
+    void handleItemChanged(unsigned int row, unsigned int column, const QString &data) const;
 
     /**@brief Handles changes of year in the library table*/
     void handleYearChanged(unsigned int row, int year) const;
 
     /**@brief Handles changes of the book quantity in the library table*/
-    void handleBookQuantityChanged(unsigned int row, int quantity);
+    void handleBookQuantityChanged(unsigned int row, int quantity) const;
 
     /**@brief Removes the specified book
      * model: removes the specified book from the library table
      * view: removes the specified book from the book table
      *
      * emits "modelChanged()"*/
-    void removeBook(unsigned int row);
+    void removeBook(unsigned int row) const;
 
     /**@brief Adds a book
      * model: adds a book to the library table
      * view: adds a row on the book table
      *
      * emits "modelChanged()"*/
-    void addBook();
+    void addBook() const;
 
 //File related slots
     /**@return Ritorna true se il file è aggiornato rispetto al modello.
@@ -74,9 +73,9 @@ private:
     };
 
     //View generating helper methods
-    bool askSavePath() const;
+    bool askSavePath();
 
-    bool askOpenPath() const;
+    bool askOpenPath();
 
     bool askSaveDecision();
 
@@ -85,9 +84,14 @@ private:
     //Initialization helper methods
     void connectToView();
 
+    [[nodiscard]] const QString &getSavePath() const;
+
+    void setSavePath(const QString &savepath);
+
     //Data fields
     WorkWindow *workWindow;
-
+    QString filepath;
     bool modelModified;
+
 
 };

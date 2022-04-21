@@ -7,7 +7,7 @@ WorkModel *ChartController::getModel() const {
     return static_cast<WorkModel *>(model);
 }
 
-void ChartController::showView() const {
+void ChartController::activate() const {
     prepareData();
-    Controller::showView();
+    Controller::activate();
 }

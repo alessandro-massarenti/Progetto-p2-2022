@@ -17,7 +17,6 @@ BarChartView *BarChartController::getView() const {
 }
 
 QList<int> BarChartController::convertData() const {
-    //TODO:Controllarne l'efficienza
 
     QList<QString> authors = getModel()->getAuthors();
     QList<int> publishedCopies;

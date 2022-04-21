@@ -11,7 +11,8 @@ public:
 
     WorkModel *getModel() const final;
 
-    void showView() const override;
+    /**@brief estende activate facendo preparare i dati(Ovvero chiama prepareData()) prima di mostrarli nella view*/
+    void activate() const override;
 
 protected:
     virtual void prepareData() const = 0;

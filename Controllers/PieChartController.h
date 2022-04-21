@@ -10,5 +10,5 @@ public:
 
     void prepareData() const override;
 
-    PieChartView *getView() const override;
+    [[nodiscard]] PieChartView *getView() const override;
 };

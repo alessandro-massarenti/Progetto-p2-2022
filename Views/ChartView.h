@@ -9,6 +9,9 @@ class ChartView : public View{
 public:
     explicit ChartView(View* parent);
     ~ChartView() override;
+
+    void clear() override;
+
 protected:
     QChart* chart;
 private:

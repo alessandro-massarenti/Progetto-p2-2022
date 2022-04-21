@@ -1,12 +1,8 @@
 #pragma once
 
-class Model {
-public:
-    /**@brief pulisce il modello*/
-    virtual void clear() = 0;
+#include "Interfaces/Clearable.h"
 
-protected:
-    explicit Model() = default;
+class Model : public Clearable{
 
 public:
     virtual ~Model() = default;

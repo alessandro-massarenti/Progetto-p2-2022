@@ -1,18 +1,9 @@
 #include "WorkModel.h"
 
-WorkModel::WorkModel(const QString &path) :
-        filepath(path) {}
+WorkModel::WorkModel(){}
 
 QVector<Book *> &WorkModel::getLibrary() {
     return library;
-}
-
-const QString &WorkModel::getSavepath() const {
-    return filepath;
-}
-
-void WorkModel::setSavePath(const QString &s) {
-    filepath = s;
 }
 
 QList<QString> WorkModel::getAuthors() {
@@ -37,5 +28,4 @@ int WorkModel::getSmallestYear() {
 
 void WorkModel::clear() {
     while (library.count()) delete library.takeLast();
-    filepath = "";
 }
