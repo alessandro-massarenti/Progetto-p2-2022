@@ -148,7 +148,6 @@ void WorkController::newFile() {
 }
 
 void WorkController::updateView() const {
-    //TODO: Provare ad aggiungere un po' più di logica
     auto library = getModel()->getLibrary();
 
     if(library.empty()){

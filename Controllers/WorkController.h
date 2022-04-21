@@ -7,7 +7,6 @@
 #include "Models/WorkModel.h"
 #include "Controllers/ChartController.h"
 
-//TODO:define
 class WorkController : public Controller {
 Q_OBJECT
 public:

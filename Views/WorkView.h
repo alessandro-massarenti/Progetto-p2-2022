@@ -10,7 +10,6 @@
 #include <QVector>
 #include "Models/Book.h"
 
-//TODO: define
 class WorkView : public View {
 Q_OBJECT
 public:

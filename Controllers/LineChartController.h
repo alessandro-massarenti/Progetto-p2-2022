@@ -9,8 +9,10 @@ public:
     explicit LineChartController(LineChartView* view,WorkModel* model, Controller* parent = nullptr);
 
     //Implementazioni
-    LineChartView *getView() const override;
+    [[nodiscard]] LineChartView *getView() const override;
+
+protected:
     void prepareData() const override;
 
-    QMap<int, int> convertData() const;
+    [[nodiscard]] QMap<int, int> convertData() const;
 };
