@@ -64,7 +64,7 @@ void WorkController::handleItemChanged(unsigned int row, unsigned int column, co
     if (getModel()->getLibrary().empty()) return;
     auto book = getModel()->getLibrary()[row];
     if (column == 0) book->setTitle(data);
-    if (column == 1) book->setAutor(data);
+    if (column == 1) book->setAuthor(data);
 }
 
 void WorkController::handleYearChanged(unsigned int row, int year) const {
@@ -240,6 +240,6 @@ const QString &WorkController::getSavePath() const {
     return filepath;
 }
 
-void WorkController::setSavePath(const QString &s) {
-    filepath = s;
+void WorkController::setSavePath(const QString &savePath) {
+    filepath = savePath;
 }

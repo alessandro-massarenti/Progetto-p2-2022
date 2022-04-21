@@ -9,11 +9,11 @@ public:
     explicit BarChartController(BarChartView *view, WorkModel *model, Controller *parent = nullptr);
 
     //Implementazioni
-    BarChartView *getView() const override;
+    [[nodiscard]] BarChartView *getView() const override;
 
 protected:
     void prepareData() const override;
 
 private:
-    QList<int> convertData() const;
+    [[nodiscard]] QList<int> convertData() const;
 };

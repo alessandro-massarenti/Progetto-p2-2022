@@ -1,7 +1,5 @@
 #include "WorkModel.h"
 
-WorkModel::WorkModel(){}
-
 QVector<Book *> &WorkModel::getLibrary() {
     return library;
 }
@@ -10,7 +8,7 @@ QList<QString> WorkModel::getAuthors() {
     QList<QString> authors;
     for (auto book: library) {
         bool trovato = false;
-        for (auto author: authors) {
+        for (const auto& author: authors) {
             if (author == book->getAuthor())
                 trovato = true;
         }

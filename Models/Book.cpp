@@ -22,7 +22,7 @@ unsigned int Book::getQuantity() const {
 
 void Book::setTitle(const QString &t) {title = t;}
 
-void Book::setAutor(const QString &a) {author = a;}
+void Book::setAuthor(const QString &a) { author = a;}
 
 void Book::setPubYear(int i) { pubYear = i;}
 

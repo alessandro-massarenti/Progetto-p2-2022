@@ -12,7 +12,7 @@
  * */
 class WorkModel : public Model {
 public:
-    explicit WorkModel();
+    explicit WorkModel() = default;
 
     /**@brief Funzione che ritorna la libreria di libri*/
     QVector<Book *> &getLibrary();
