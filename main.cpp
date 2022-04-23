@@ -9,8 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     //Il work controller essendo un QObject verrà distrutto da qt a fine vita.
-    auto workController = new WorkController(new WorkView());
-    workController->activate();
+    (new WorkController(new WorkView()))->activate();
 
     return QApplication::exec();
 }

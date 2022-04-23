@@ -92,6 +92,4 @@ private:
     WorkWindow *workWindow;
     QString filepath;
     bool modelModified;
-
-
 };
