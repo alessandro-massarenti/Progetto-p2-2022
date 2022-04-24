@@ -4,6 +4,7 @@
 #include <QString>
 #include <QList>
 #include "Book.h"
+#include "Services/WorkModelSerializer.h"
 
 /**@brief
  * Responsibility:
@@ -11,8 +12,9 @@
  * - knows where it is saved on disk or if is not saved on it
  * */
 class WorkModel : public Model {
+    friend WorkModelSerializer;
 public:
-    explicit WorkModel() = default;
+    explicit WorkModel();
 
     /**@brief Funzione che ritorna la libreria di libri*/
     QVector<Book *> &getLibrary();
@@ -23,7 +25,6 @@ public:
 
     /** @brief pulisce il modello svuotando la libreria e resettando il savepath*/
     void clear() override;
-
 private:
     QVector<Book *> library;
 };

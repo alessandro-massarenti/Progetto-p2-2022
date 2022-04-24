@@ -1,8 +1,11 @@
 #pragma once
 
+#include "Interfaces/Serializable.h"
+#include "Services/BookSerializer.h"
+
 #include <QString>
 
-class Book {
+class Book : public Serializable{
 public:
     explicit Book(const QString& name = "",const QString& author = "",int year = 0,unsigned int count = 0);
     virtual ~Book() = default;

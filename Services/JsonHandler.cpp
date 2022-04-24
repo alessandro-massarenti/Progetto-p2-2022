@@ -31,30 +31,11 @@ QVector<Book*>* JsonHandler::openFrom(const QString& savePath) {
     return deSerialize(loadDoc.object());
 }
 
-QJsonObject JsonHandler::serialize(const Book &b) {
-    long long a = b.getQuantity();
+QString JsonHandler::serialize(std::weak_ptr<Serializer> serializer) {
 
-    QJsonObject record;
-    record["title"] = b.getTitle();
-    record["author"] = b.getAuthor();
-    record["year"] = b.getPubYear();
-    record["quantity"] = a;
+    if(serializer.expired()) return {};
 
-    return record;
-}
-
-QString JsonHandler::serialize(const QVector<Book *> & library) {
-    QJsonObject project;
-
-    QJsonArray records;
-
-
-    for(auto book : library){
-        records.append(serialize(*book));
-    }
-    project["library"] = records;
-
-    QJsonDocument saveDoc(project);
+    QJsonDocument saveDoc(serializer.lock()->getJsonObject());
     return saveDoc.toJson();
 }
 

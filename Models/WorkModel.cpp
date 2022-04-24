@@ -27,3 +27,5 @@ int WorkModel::getSmallestYear() {
 void WorkModel::clear() {
     while (library.count()) delete library.takeLast();
 }
+
+WorkModel::WorkModel(): Model(new WorkModelSerializer(this)){}
