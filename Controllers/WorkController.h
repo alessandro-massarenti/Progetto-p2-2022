@@ -14,11 +14,11 @@ public:
 
     ~WorkController() override = default;
 
-    WorkView *getView() const override;
+    [[nodiscard]] WorkView *getView() const override;
 
-    WorkModel *getModel() const override;
+    [[nodiscard]] WorkModel *getModel() const override;
 
-    bool maybeSaved() const;
+    [[nodiscard]] bool maybeSaved() const;
 
 signals:
 
@@ -86,12 +86,10 @@ private:
 
     [[nodiscard]] const QString &getSavePath() const;
 
-    void setSavePath(const QString &savepath);
+    void setSavePath(const QString &savePath);
 
     //Data fields
     WorkWindow *workWindow;
     QString filepath;
     bool modelModified;
-
-
 };

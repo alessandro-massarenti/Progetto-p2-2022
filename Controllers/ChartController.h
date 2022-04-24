@@ -9,7 +9,7 @@ class ChartController : public Controller{
 public:
     explicit ChartController(ChartView *v, WorkModel *m , Controller *p = nullptr);
 
-    WorkModel *getModel() const final;
+    [[nodiscard]] WorkModel *getModel() const final;
 
     /**@brief estende activate facendo preparare i dati(Ovvero chiama prepareData()) prima di mostrarli nella view*/
     void activate() const override;

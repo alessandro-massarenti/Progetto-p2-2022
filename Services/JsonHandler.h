@@ -15,7 +15,6 @@ public:
     static bool saveToFile(const QString & data, const QString& path);
     static QVector<Book*>* openFrom(const QString & savePath);
 
-    static QJsonObject serialize(const Book& b);
-    static QString serialize(const QVector<Book*>& library);
+    static QString serialize(std::weak_ptr<Serializer>);
     static QVector<Book*>* deSerialize(const QJsonObject& jo);
 };

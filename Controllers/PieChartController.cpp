@@ -10,11 +10,11 @@ void PieChartController::prepareData() const {
 
     QList<int> bookCount;
 
-    for (auto i = 0; i < authors.size(); ++i) {
+    for (auto & author : authors) {
 
         int tot = 0;
         for(auto j = 0; j < library.size(); ++j){
-            if(authors[i] == library[j]->getAuthor()){
+            if(author == library[j]->getAuthor()){
                 tot += library[j]->getQuantity();
                 library.remove(j);
                 --j;

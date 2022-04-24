@@ -18,10 +18,13 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
     //Crea la Record Table
     getView()->createBooksTable();
     connectToView();
+
     workWindow->setCentralWidget(getView());
     workWindow->show();
 
     emit modelChanged();
+    modelModified = false;
+
 }
 
 void WorkController::connectToView() {
@@ -64,7 +67,7 @@ void WorkController::handleItemChanged(unsigned int row, unsigned int column, co
     if (getModel()->getLibrary().empty()) return;
     auto book = getModel()->getLibrary()[row];
     if (column == 0) book->setTitle(data);
-    if (column == 1) book->setAutor(data);
+    if (column == 1) book->setAuthor(data);
 }
 
 void WorkController::handleYearChanged(unsigned int row, int year) const {
@@ -98,7 +101,7 @@ bool WorkController::saveFile() {
     if (getSavePath().isEmpty() || getSavePath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if (filepathPresent) {
-        JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getLibrary()),
+        JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getSerializer()),
                                 getSavePath());
         modelModified = false;
         return true;
@@ -240,6 +243,6 @@ const QString &WorkController::getSavePath() const {
     return filepath;
 }
 
-void WorkController::setSavePath(const QString &s) {
-    filepath = s;
+void WorkController::setSavePath(const QString &savePath) {
+    filepath = savePath;
 }
