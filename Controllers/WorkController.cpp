@@ -18,10 +18,13 @@ WorkController::WorkController(WorkView *v, WorkModel *m, Controller *p) :
     //Crea la Record Table
     getView()->createBooksTable();
     connectToView();
+
     workWindow->setCentralWidget(getView());
     workWindow->show();
 
     emit modelChanged();
+    modelModified = false;
+
 }
 
 void WorkController::connectToView() {

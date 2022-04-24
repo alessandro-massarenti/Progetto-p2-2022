@@ -1,5 +1,6 @@
 #pragma once
 #include "Services/Serializer.h"
+#include <memory>
 
 class Serializable{
 protected:
