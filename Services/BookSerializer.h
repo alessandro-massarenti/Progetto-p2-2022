@@ -9,7 +9,6 @@ public:
     explicit BookSerializer(const Book* book);
 
     QJsonObject getJsonObject() override;
-
 private:
     const Book* book;
 };

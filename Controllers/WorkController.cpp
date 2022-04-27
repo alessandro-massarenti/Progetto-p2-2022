@@ -101,7 +101,7 @@ bool WorkController::saveFile() {
     if (getSavePath().isEmpty() || getSavePath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if (filepathPresent) {
-        JsonHandler::saveToFile(JsonHandler::serialize(getModel()->getSerializer()),
+        JsonHandler::saveToFile(JsonHandler::getQstring(getModel()->getSerializer()),
                                 getSavePath());
         modelModified = false;
         return true;
