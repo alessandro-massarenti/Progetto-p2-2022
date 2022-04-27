@@ -31,7 +31,7 @@ QVector<Book*>* JsonHandler::openFrom(const QString& savePath) {
     return deSerialize(loadDoc.object());
 }
 
-QString JsonHandler::getQstring(std::weak_ptr<Serializer> serializer) {
+QString JsonHandler::getQString(std::weak_ptr<Serializer> serializer) {
 
     if(serializer.expired()) return {};
 

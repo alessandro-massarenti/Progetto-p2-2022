@@ -96,12 +96,12 @@ bool WorkController::saveFile() {
 
     if (!maybeSaved()) return true;
 
-    bool filepathPresent(false);
+    bool filepathPresent;
 
     if (getSavePath().isEmpty() || getSavePath().isNull()) filepathPresent = askSavePath();
     else filepathPresent = true;
     if (filepathPresent) {
-        JsonHandler::saveToFile(JsonHandler::getQstring(getModel()->getSerializer()),
+        JsonHandler::saveToFile(JsonHandler::getQString(getModel()->getSerializer()),
                                 getSavePath());
         modelModified = false;
         return true;
@@ -114,8 +114,7 @@ void WorkController::openFile() {
     if (!closeFile()) return;
 
     //Se il file è stato chiuso allora prova a domandare da dove prendere i dati
-    bool filepathPresent(false);
-    filepathPresent = askOpenPath();
+    bool filepathPresent(askOpenPath());
 
     //Se è stato scelto un path valido il modello viene popolato con i dati
     if (filepathPresent) {
@@ -127,7 +126,7 @@ void WorkController::openFile() {
 
 bool WorkController::closeFile() {
 
-    bool canBeClosed(false);
+    bool canBeClosed;
 
     !maybeSaved() ? canBeClosed = true : canBeClosed = askSaveDecision();
 
