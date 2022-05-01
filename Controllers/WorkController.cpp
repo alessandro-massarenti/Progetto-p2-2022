@@ -228,7 +228,7 @@ void WorkController::showChart(ChartRequest cr) {
             chartController = new LineChartController(new LineChartView(getView()), getModel(), this);
             break;
         }
-        default: break;
+        default: {throw std::domain_error("Tipo di chart non nel dominio"); break;}
     }
 
     chartController->activate();
