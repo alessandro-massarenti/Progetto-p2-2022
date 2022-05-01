@@ -23,7 +23,7 @@ public:
 
     int getSmallestYear();
 
-    /** @brief pulisce il modello svuotando la libreria e resettando il savepath*/
+    /** @brief pulisce il modello svuotando la libreria e resettando il save-path*/
     void clear() override;
 private:
     QVector<Book *> library;
