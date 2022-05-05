@@ -6,6 +6,9 @@ QT += core \
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
 
+TARGET = BookAnalyzer
+TEMPLATE = app
+
 CONFIG += c++11
 
 #QMAKE_CXXFLAGS += -v
@@ -38,4 +41,7 @@ HEADERS += \
 RESOURCES = resources.qrc
 
 ICON = AppIcon.ico
-TARGET = BookAnalyzer
+OBJECTS_DIR = build
+RCC_DIR = build/rcc
+MOC_DIR = build/moc
+QMAKE_LFLAGS += -no-pie #Altrimenti Ubuntu non lo vede come eseguibile
