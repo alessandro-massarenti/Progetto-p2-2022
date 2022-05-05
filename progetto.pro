@@ -44,4 +44,4 @@ ICON = AppIcon.ico
 OBJECTS_DIR = build
 RCC_DIR = build/rcc
 MOC_DIR = build/moc
-QMAKE_LFLAGS += -no-pie #Altrimenti Ubuntu non lo vede come eseguibile
+QMAKE_LFLAGS += -no-pie #Altrimenti Ubuntu non lo vede come eseguibile, per altri sistemi operativi si può omettere
